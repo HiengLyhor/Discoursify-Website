@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discoursify", "Discoursify.csproj", "{79B8C9F6-B041-4432-9D6C-7B64E8874368}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discoursify.Tests", "..\Discoursify.Tests\Discoursify.Tests.csproj", "{3F5BC85C-89A4-46DE-8990-CFF457D8E9FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79B8C9F6-B041-4432-9D6C-7B64E8874368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79B8C9F6-B041-4432-9D6C-7B64E8874368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79B8C9F6-B041-4432-9D6C-7B64E8874368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79B8C9F6-B041-4432-9D6C-7B64E8874368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F5BC85C-89A4-46DE-8990-CFF457D8E9FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5BC85C-89A4-46DE-8990-CFF457D8E9FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5BC85C-89A4-46DE-8990-CFF457D8E9FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5BC85C-89A4-46DE-8990-CFF457D8E9FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47E4D939-A899-438A-B253-FE63CA7202E9}
+	EndGlobalSection
+EndGlobal
