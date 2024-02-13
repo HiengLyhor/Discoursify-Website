@@ -14,7 +14,7 @@ namespace Discoursify.Models
 
         public string loginAction(string username, string password)
         {
-
+            return "Success";
         }
     }
 }

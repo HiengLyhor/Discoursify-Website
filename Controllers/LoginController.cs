@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Discoursify.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,9 +16,10 @@ namespace Discoursify.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login()
+        public ActionResult Login(Login login)
         {
-            return View();
+            string status = login.loginAction(login.UserName, login.Password);
+            return View(login);
         }
     }
 }
