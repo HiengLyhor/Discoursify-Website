@@ -34,7 +34,7 @@
                         <h2 class="user_unregistered-title">Don't have an account?</h2>
                         <p class="user_unregistered-text">Banjo tote bag bicycle rights, High Life sartorial cray craft beer whatever street art fap.</p>
                         <button class="user_unregistered-signup" id="signup-button" onclick="location.href='@Url.Action("SignUp", "Login")';">Sign up</button>
-
+                        <button class="user_unregistered-signup" style="margin-left: 20px" onclick="location.href='@Url.Action("Index", "Home")'">Back?</button>
                     </div>
 
                     <div class="user_options-registered">
@@ -48,13 +48,19 @@
                     <div class="user_forms-login">
                         <h2 class="forms_title">Login</h2>
                         <form class="forms_form">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @if (ViewData.ModelState.ContainsKey(""))
+                            {
+                                <div class="alert alert-danger">
+                                    @Html.ValidationMessage("")
+                                </div>
+                            }
                             <fieldset class="forms_fieldset">
                                 <div class="forms_field">
                                     @Html.TextBoxFor(m => m.Email, new { @class = "forms_field-input", @placeholder = "Email", @required = "required", @autofocus = "autofocus" })
                                 </div>
                                 <div class="forms_field">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "forms_field-input", @placeholder = "Password", @required = "required" })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "forms_field-input", @placeholder = "Password", @required = "required", @id = "passwordField" })
+                                    <button type="button" id="togglePasswordField" class="password-toggle-btn"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                 </div>
                             </fieldset>
                             <div class="forms_buttons">
@@ -71,31 +77,56 @@
 </body>
 
 <script>
-    /**
- * Variables
- */
-    const signupButton = document.getElementById('signup-button'),
-        loginButton = document.getElementById('login-button'),
-        userForms = document.getElementById('user_options-forms')
+    document.addEventListener('DOMContentLoaded', function () {
+        var passwordField = document.getElementById('passwordField');
+       
+        var confirmPasswordField = document.getElementById('confirmPasswordField');
+        var togglePasswordField = document.getElementById('togglePasswordField');
+        var toggleConfirmPasswordField = document.getElementById('toggleConfirmPasswordField');
 
-    /**
-     * Add event listener to the "Sign Up" button
-     */
-    signupButton.addEventListener('click', () => {
-        userForms.classList.remove('bounceRight')
-        userForms.classList.add('bounceLeft')
-    }, false)
+        togglePasswordField.addEventListener('click', function () {
+            togglePasswordVisibility(passwordField);
+        });
 
-    /**
-     * Add event listener to the "Login" button
-     */
-    loginButton.addEventListener('click', () => {
-        userForms.classList.remove('bounceLeft')
-        userForms.classList.add('bounceRight')
-    }, false)
+
+        function togglePasswordVisibility(field) {
+            var fieldType = field.type;
+            if (fieldType === 'password') {
+                field.type = 'text';
+            } else {
+                field.type = 'password';
+            }
+            // Toggle eye icon
+            var eyeIcon = field.nextElementSibling.querySelector('i');
+            if (eyeIcon.classList.contains('fa-eye')) {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    });
 </script>
 
 <style>
+    .password-toggle-btn {
+        background: none;
+        border: none;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .forms_field {
+        position: relative;
+    }
+
+    .forms_field-input {
+        padding-right: 35px; /* Adjust for button width */
+    }
     /**
  * * General variables
  * */

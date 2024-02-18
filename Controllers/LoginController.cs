@@ -18,20 +18,28 @@ namespace Discoursify.Controllers
             return View();
         }
 
-        public ActionResult SignUp()
+        public ActionResult SignUp(string username)
         {
+            if(username == null)
+            {
+                return View();
+            }
+            Login login = new Login();
+            string checkUsername = login.CheckUsername(username);
+            if (checkUsername == "Existed")
+            {
+                ModelState.AddModelError("", "This username is existed, please use other username.");
+            }
+            else
+            {
+                ModelState.AddModelError("Success", "This username is available to use.");
+            }
             return View();
         }
         [HttpPost]
         public ActionResult SignUp(Login signUp) 
         {
             Login model = new Login();
-
-            if(signUp.Password != signUp.ConfirmPassword)
-            {
-                ModelState.AddModelError("Error", "Password and confirm password must be matched.");
-                return View();
-            }
             string checkUsername = model.CheckUsername(signUp.Username);
 
             if(checkUsername != "Existed")
@@ -42,8 +50,32 @@ namespace Discoursify.Controllers
                     return RedirectToLocal("");
                 }
             }
-            ModelState.AddModelError("Error", "This username is existed, please use other username.");
+            else
+            {
+                ModelState.AddModelError("", "This username is existed, please use other username.");
+            }
             return View();
+        }
+
+        public ActionResult CheckUser(string username)
+        {
+            Login login = new Login();
+            string checkUsername = login.CheckUsername(username);
+            if(checkUsername == "Existed")
+            {
+                ModelState.AddModelError("", "This username is existed, please use other username.");
+            }
+            else
+            {
+                ModelState.AddModelError("Success", "This username is available to use.");
+            }
+            return RedirectToLocal("~/Login/SignUp");
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToLocal("~/");
         }
 
         [HttpPost]
@@ -83,7 +115,7 @@ namespace Discoursify.Controllers
                 }
                 catch
                 {
-                    ModelState.AddModelError("Error", "Something went wrong during the process.");
+                    ModelState.AddModelError("", "Something went wrong during the process.");
                     return View();
                 }
             }
@@ -108,5 +140,6 @@ namespace Discoursify.Controllers
                 }
             }
         }
+
     }
 }

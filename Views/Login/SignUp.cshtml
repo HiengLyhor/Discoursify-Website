@@ -31,7 +31,7 @@
                         <h2 class="user_registered-title">Join our community</h2>
                         <p class="user_registered-text">Create your account to start sharing and connecting.</p>
                         <button class="user_registered-login" id="back-to-login-button" onclick="window.location.href='@Url.Action("Login", "Login")';">Already have an account?</button>
-
+                        <button class="user_unregistered-signup" style="margin-left: 20px" onclick="location.href='@Url.Action("Index", "Home")'">Back?</button>
                     </div>
                 </div>
 
@@ -39,10 +39,22 @@
                     <div class="user_forms-signup">
                         <h2 class="forms_title" style="margin-left: -80px; margin-top: 30px">Sign Up</h2>
                         <form class="forms_form" id="registrationForm">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @if (ViewData.ModelState.ContainsKey("Success"))
+                            {
+                                <div class="alert alert-success" style="margin-right: 150px; margin-left: -80px">
+                                    @Html.ValidationMessage("Success")
+                                </div>
+                            }
+
+                            @if (ViewData.ModelState.ContainsKey(""))
+                            {
+                                <div class="alert alert-danger"  style="margin-right: 150px; margin-left: -80px">
+                                    @Html.ValidationMessage("")
+                                </div>
+                            }
                             <fieldset class="forms_fieldset" style="margin-right: 150px; margin-left: -85px">
                                 <div class="forms_field">
-                                    @Html.TextBoxFor(m => m.Username, new { @class = "forms_field-input", @placeholder = "Username", @required = "required", @autofocus = "autofocus" })
+                                    @Html.TextBoxFor(m => m.Username, new { @class = "forms_field-input", @placeholder = "Username", @required = "required", @id = "usernameField" })
                                 </div>
                                 <div class="forms_field">
                                     @Html.TextBoxFor(m => m.Email, new { @class = "forms_field-input", @placeholder = "Email", @required = "required" })
@@ -77,6 +89,16 @@
     document.addEventListener('DOMContentLoaded', function () {
         var passwordField = document.getElementById('passwordField');
         var confirmPasswordField = document.getElementById('confirmPasswordField');
+        var usernameField = document.getElementById('usernameField');
+
+        // Add event listener for blur event
+        usernameField.addEventListener('blur', function () {
+            var username = usernameField.value;
+            if (username.length > 0) {
+                console.log(username);
+                window.location.href = '/Login/SignUp/?username=' + encodeURIComponent(username);
+            }
+        });
 
         passwordField.addEventListener('input', function () {
             validatePasswordsMatch();
