@@ -23,6 +23,18 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
+    @{ 
+        Discoursify.Models.Login login = new Discoursify.Models.Login();
+        bool status = false;
+        if (Session["USER_NAME"] != null || Session["USER_EMAIL"] != null)
+        {
+            status = true;
+        }
+
+
+     }
+    
     <div class="wrapper">
         <!-- Main Header wrapper -->
         <header class="main-header">
@@ -48,11 +60,29 @@
                             </li>
                         </ul>
                     </div>
+                    
                     <div class="functional-buttons">
-                        <ul>
-                            <li>@Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link" })</li>
-                            <li>@Html.ActionLink("Sign Up", "Login", "Login", new { area = "" }, new { @class = "nav-link" })</li>
-                        </ul>
+
+                        @if (status)
+                        {
+                            <ul>
+                                <li>Welcome back @Session["USER_NAME"]!</li>
+                                <li>@Html.ActionLink("Profile", "Profile", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                                <li>
+                                    <form action="@Url.Action("Logout", "Login")" method="post">
+                                        <button type="submit" class="nav-link">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul>
+                                <li>@Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                                <li>@Html.ActionLink("Sign Up", "SignUp", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                            </ul>
+                        }
+
                     </div>
                 </div>
             </nav>
