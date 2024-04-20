@@ -120,14 +120,19 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Enum\CommandAction.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomPrincipalSerializeModel.cs" />
+    <Compile Include="Models\FeedBack.cs" />
+    <Compile Include="Models\LazyLoadView.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Models\StaticContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -135,6 +140,7 @@
     <Content Include="Content\assets\css\flex-slider.css" />
     <Content Include="Content\assets\css\fontawesome.css" />
     <Content Include="Content\assets\css\owl.css" />
+    <Content Include="Content\assets\css\style.css" />
     <Content Include="Content\assets\css\templatemo-host-cloud.css" />
     <Content Include="Content\assets\fonts\flexslider-icon.svg" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.svg" />
@@ -152,6 +158,7 @@
     <Content Include="Content\assets\js\accordions.js" />
     <Content Include="Content\assets\js\custom.js" />
     <Content Include="Content\assets\js\owl.js" />
+    <Content Include="Content\assets\js\script.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -223,7 +230,7 @@
     <Content Include="Views\Index\contact.html" />
     <Content Include="Views\Index\index.html" />
     <Content Include="Views\Index\services.html" />
-    <Content Include="Views\Login\Login.html" />
+    <Content Include="Views\Login\NotFound.css" />
     <Content Include="Views\Login\script.js" />
     <Content Include="Views\Login\style.css" />
     <Content Include="Web.config" />
@@ -243,6 +250,10 @@
     <Content Include="Views\Index\Index.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\SignUp.cshtml" />
+    <Content Include="Views\Login\NotFound.cshtml" />
+    <Content Include="Views\Post\Create.cshtml" />
+    <Content Include="Views\FeedBack\Feedback.cshtml" />
+    <Content Include="Views\Post\PostDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

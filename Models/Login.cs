@@ -69,7 +69,7 @@ namespace Discoursify.Models
                         cmd.Parameters.AddWithValue("@pUsrPass", hashedPassword);
                         cmd.Parameters.AddWithValue("@pUsrRole", "User");
                         cmd.Parameters.AddWithValue("@pUsrBio", "N/A");
-                        //cmd.Parameters.AddWithValue("@pDob", dob);
+                        cmd.Parameters.AddWithValue("@pDob", dob);
                         cmd.Parameters.AddWithValue("@pUsrName", username);
                         cmd.Parameters.AddWithValue("@pUsrGen", gender);
                         cmd.ExecuteNonQuery();

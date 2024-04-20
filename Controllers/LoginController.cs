@@ -47,6 +47,7 @@ namespace Discoursify.Controllers
                 string status = model.Register(signUp);
                 if (status == "Success")
                 {
+                    TempData["SuccessMessage"] = "Your account has been created successfully. \nPlease login with your username and password.";
                     return RedirectToLocal("");
                 }
             }
@@ -54,6 +55,21 @@ namespace Discoursify.Controllers
             {
                 ModelState.AddModelError("", "This username is existed, please use other username.");
             }
+            return View();
+        }
+
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+
+        public ActionResult PageError()
+        {
+            return View();
+        }
+
+        public ActionResult BadRequest()
+        {
             return View();
         }
 
@@ -81,8 +97,7 @@ namespace Discoursify.Controllers
         [HttpPost]
         public ActionResult Login(Login login, string returnUrl)
         {
-            string status = "";
-            status = login.loginAction(login.Email, login.Password);
+            string status = login.loginAction(login.Email, login.Password);
 
             if(status == "Success")
             {

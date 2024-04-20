@@ -1,0 +1,163 @@
+﻿@model Discoursify.Models.Post
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="TemplateMo">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+
+    <title>Dicoursify</title>
+    <link rel="icon" type="image/svg" href="~/Content/logo/Logo.svg" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="~/Content/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="~/Content/assets/css/templatemo-host-cloud.css">
+    <link rel="stylesheet" href="~/Content/assets/css/owl.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+</head>
+
+@if (TempData["Message"] != null)
+{
+    <style>
+        .modal-content {
+            background-color: #f8f9fa; /* Set the background color of the modal content */
+            border-radius: 10px; /* Add rounded corners to the modal content */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow to the modal content */
+        }
+
+        .modal-header {
+            background-color: #007bff; /* Set the background color of the modal header */
+            color: #fff; /* Set the text color of the modal header */
+        }
+    </style>
+
+    <script>
+        setTimeout(function() {
+            var message = '@TempData["Message"]';
+            var cancelUrl = '@Url.Action("Index", "Home")';
+            var loginUrl = '@Url.Action("Login", "Login")';
+
+            var modalHtml = '<div id="alertModal" class="modal" tabindex="-1" role="dialog" style="display: block;">';
+            modalHtml += '<div class="modal-dialog" role="document">';
+            modalHtml += '<div class="modal-content">';
+            modalHtml += '<div class="modal-header">';
+            modalHtml += '<h5 class="modal-title">Oops!</h5>';
+            modalHtml += '</div>';
+            modalHtml += '<div class="modal-body">';
+            modalHtml += '<strong>' + message + '</strong>';
+            modalHtml += '</div>';
+            modalHtml += '<div class="modal-footer">';
+            modalHtml += '<a href="' + cancelUrl + '" class="btn btn-secondary">Cancel</a>';
+            modalHtml += '<a href="' + loginUrl + '" class="btn btn-primary">Login</a>';
+            modalHtml += '</div>';
+            modalHtml += '</div>';
+            modalHtml += '</div>';
+            modalHtml += '</div>';
+
+            $('body').append(modalHtml);
+        }, 1000);
+    </script>
+}
+else
+{
+
+
+<link rel="stylesheet" href="~/Content/assets/css/style.css"><div class="common-structure">
+        <aside class="side-a">
+        </aside>
+        <main class="main-feed" style="margin-top: 50px">
+
+            @if (TempData["ErrorPost"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorPost"].ToString()
+                </div>
+            }
+
+            @using (Html.BeginForm("Create", "Post", FormMethod.Post, new { @class = "fancy-form", enctype = "multipart/form-data" }))
+            {
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @id = "title", @name = "title", @required = "required", @style = "height: 30px" })
+                </div>
+                <div class="form-group">
+                    <label for="main-poster">Main Poster Image:</label>
+                    @*@Html.TextBoxFor(model => model.ImageUrl, new { @class = "form-control-file", @type = "file", @id = "main-poster", @name = "main-poster", @accept = "image/*", @required = "required" })*@
+                    @Html.TextBoxFor(model => model.ImageFile, new { @class = "form-control-file", @type = "file", @id = "main-poster", @name = "main-poster", @accept = "image/*", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="content">Content:</label>
+                    @Html.TextAreaFor(Model => Model.Content, new { @class = "form-control", @rows = "8", @required = "required" })
+                </div>
+                <button type="submit" class="btn btn-primary">Create Post</button>
+            }
+
+        </main>
+        <aside class="side-b">
+        </aside>
+    </div>
+
+}
+
+<style>
+    .fancy-form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f8f8f8;
+    }
+
+        .fancy-form label {
+            font-weight: bold;
+        }
+
+        .fancy-form input[type="text"],
+        .fancy-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .fancy-form input[type="file"] {
+            border: none;
+            background-color: transparent;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .fancy-form button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            .fancy-form button[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+</style>

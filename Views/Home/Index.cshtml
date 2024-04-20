@@ -1,369 +1,179 @@
-﻿
+﻿@using Discoursify.Models
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    LazyLoadView lazyLoadView = Model;
 }
 
-<body class="container">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<body>
 
-    <div class="banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    <div class="header-text caption">
-                        <h2>Search your domain</h2>
-                        <div id="search-section">
-                            <form id="suggestion_form" name="gs" method="get" action="#">
-                                <div class="searchText">
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <script>
+            $(document).ready(function () {
+                // Display the success message as a modal dialog
+                $('#successModal').modal('show');
+            });
+        </script>
+    }
 
-                                    <input type="text" name="q" class="searchText" placeholder="Enter your domain here..." autocomplete="on">
-                                    <ul>
-                                        <li><label><input type="checkbox" name="ext_com" value="1"><span>.com <em>($10/yr)</em></span></label></li>
-                                        <li><label><input type="checkbox" name="ext_net" value="1"><span>.net <em>($12/yr)</em></span></label></li>
-                                        <li><label><input type="checkbox" name="ext_org" value="1"><span>.org <em>($8/yr)</em></span></label></li>
-                                        <li><label><input type="checkbox" name="ext_in" value="1"><span>.in <em>($6/yr)</em></span></label></li>
-                                    </ul>
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Success!</h5>
+                </div>
+                <div class="modal-body" style="font-size: 20px">
+                    <div class="text-center">
+                        <i>Congrats 🎉</i>
+                        <p style="font-size: 20px" class="lead">@ViewBag.SuccessMessage</p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center" style="font-size: 15px">
+                    <button onclick="window.location.href='/Home/Index';" type="button" class="btn btn-outline-success" data-dismiss="modal" style="font-size: 15px">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="~/Content/assets/css/style.css">
+    <button class="icon-button e-dark-mode-button u-animation-click" id="darkMode" aria-label="Dark Mode"><span class="icon" aria-hidden="true">🌜</span></button>
+
+    <!-- partial:index.partial.html -->
+    <div class="common-structure">
+
+        <aside class="side-a" style="padding-left: 20px">
+            <section class="common-section">
+                <h2 class="section-title u-hide">User Navigation</h2>
+                <ul class="common-list">
+                    <li class="common-list-item">
+                        <a href="/Post/Create" class="common-list-button">
+                            <span class="icon">📝</span>
+                            <span class="text">Write a post</span>
+                        </a>
+                    </li>
+                    <li class="common-list-item">
+                        <a href="/Topic/List" class="common-list-button">
+                            <span class="icon" aria-hidden="true">💬</span>
+                            <span class="text">Other topics</span>
+                        </a>
+                    </li>
+                    <li class="common-list-item">
+                        <a href="/Community/Join" class="common-list-button">
+                            <span class="icon">👨&zwj;👦&zwj;👦</span>
+                            <span class="text">Join a community</span>
+                        </a>
+                    </li>
+                    <li class="common-list-item">
+                        <a href="/FeedBack/Feedback" class="common-list-button">
+                            <span class="icon">📩</span>
+                            <span class="text">Drop a feedback</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+        </aside>
+        <main class="main-feed">
+            <ul class="main-feed-list">
+                @foreach (var post in lazyLoadView.Posts)
+                {
+                    <li class="main-feed-item">
+                        <article class="common-post">
+                            <div class="common-post-content common-content">
+                                <h4 style="margin-bottom: 10px">🔵 <b>@post.Owner</b></h4>
+                                <p><b>@post.Title</b></p>
+
+                                <p>
+                                    @post.Content
+                                </p>
+
+                                <a class="embed-content" href="/Post/PostDetail?postKey=@post.UniqKey">
+                                    <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="">
+                                </a>
+                            </div>
+                            <div class="summary u-flex">
+                                <div class="reactions">👍</div>
+                                <div class="reactions-total">@post.Like</div>
+                                <div class="total-comments u-margin-inline-start">
+                                    <a>@post.CommentCount Comments</a>
                                 </div>
-                                <input type="submit" name="results" class="main-button" value="Search Now">
-                            </form>
-                            <div class="advSearch_chkbox">
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Banner Ends Here -->
-    <!-- Trusted Starts Here -->
-    <div class="trusted-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="trusted-section-heading">
-                        <h4>TRUSTED BY 1,250+ HAPPY CUSTOMERS WORLDWIDE</h4>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="owl-trusted owl-carousel">
-                        <div class="trusted-item">
-                            <img src="~/Content/assets/images/trusted-01.png" alt="trusted 1">
-                        </div>
-                        <div class="trusted-item">
-                            <img src="~/Content/assets/images/trusted-01.png" alt="trusted 2">
-                        </div>
-                        <div class="trusted-item">
-                            <img src="~/Content/assets/images/trusted-01.png" alt="trusted 3">
-                        </div>
-                        <div class="trusted-item">
-                            <img src="~/Content/assets/images/trusted-01.png" alt="trusted 4">
-                        </div>
-                        <div class="trusted-item">
-                            <img src="~/Content/assets/images/trusted-01.png" alt="trusted 5">
-                        </div>
-                        <div class="trusted-item">
-                            <img src="~/Content/assets/images/trusted-01.png" alt="trusted 6">
-                        </div>
-                        <div class="trusted-item">
-                            <img src="~/Content/assets/images/trusted-01.png" alt="trusted 7">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Trusted Ends Here -->
-    <!-- Services Starts Here -->
-    <div class="services-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-heading">
-                        <span>Hosting Services</span>
-                        <h2>Services we provide</h2>
-                        <p>Host Cloud is a professional Bootstrap 4 template by TemplateMo for your hosting company websites. There are 4 HTML pages included in this template. You can feel free to customize anything. Please share this template to your friends. Thank you.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="service-item">
-                        <i class="fa fa-database"></i>
-                        <h4>10x Light Cloud</h4>
-                        <p>Aenean sit amet leo vitae tellus vehicula tincidunt vel sed lorem. Nullam tincidunt commodo magna, id aliquam sapien sollicitudin id.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="service-item">
-                        <i class="fa fa-database"></i>
-                        <h4>Managed VPS Cloud</h4>
-                        <p>You are not allowed to re-distribute this template as a downloadable ZIP file on any template collection website. Please <a rel="nofollow" href="https://templatemo.com/contact" target="_parent">contact us</a> if you want to.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="service-item">
-                        <i class="fa fa-database"></i>
-                        <h4>Fully Dedicated</h4>
-                        <p>Aenean sit amet leo vitae tellus vehicula tincidunt vel sed lorem. Nullam tincidunt commodo magna, id aliquam sapien sollicitudin id.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Services Ends Here -->
-    <!-- Pricing Starts Here -->
-    <div class="pricing-section">
-        <div class="background-image-pricing">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    <div class="section-heading">
-                        <h2>Cloud Hosting Plans</h2>
-                        <p>Lorem ipsum dolor amet taxidermy sriracha cardigan salvia actually vice migas enamel pin sustainable carry scenester lomo hot chicken farm table actually kinfolk.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="pricing-item">
-                        <h4>Basic Cloud 5x</h4>
-                        <div class="price">
-                            <h6>$15.50</h6>
-                            <span>monthly</span>
-                        </div>
-                        <p>Etiam sit amet placerat lacus, sed placerat mauris. Vestibulum malesuada vehicula sapien non tempus.</p>
-                        <div class="dev"></div>
-                        <ul>
-                            <li><i class="fa fa-check"></i>500 GB Storage Space</li>
-                            <li><i class="fa fa-check"></i>3 TB Data Transfer</li>
-                            <li><i class="fa fa-check"></i>Basic Managed Panel</li>
-                            <li><i class="fa fa-check"></i>24/7 Fast Support</li>
-                            <li><i class="fa fa-check"></i>100 Premium Themes</li>
-                            <li><i class="fa fa-check"></i>Cancel or Upgrade Anytime</li>
-                        </ul>
-                        <a href="#" class="main-button">Start Plan</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="pricing-item">
-                        <h4>Cloud VPS 10x</h4>
-                        <div class="price price-gradient">
-                            <h6>$30.00</h6>
-                            <span>monthly</span>
-                        </div>
-                        <p>Etiam sit amet placerat lacus, sed placerat mauris. Vestibulum malesuada vehicula sapien non tempus.</p>
-                        <div class="dev"></div>
-                        <ul>
-                            <li><i class="fa fa-check"></i>1 TB Cloud Space</li>
-                            <li><i class="fa fa-check"></i>8 TB Data Transfer</li>
-                            <li><i class="fa fa-check"></i>Fully Managed Panel</li>
-                            <li><i class="fa fa-check"></i>15-minute Quick Support</li>
-                            <li><i class="fa fa-check"></i>Unlimted Web Addons</li>
-                            <li><i class="fa fa-check"></i>Cancel or Upgrade Anytime</li>
-                        </ul>
-                        <a href="#" class="gradient-button">Select Plan</a>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="pricing-item">
-                        <h4>Advanced Cloud</h4>
-                        <div class="price">
-                            <h6>$72.25</h6>
-                            <span>monthly</span>
-                        </div>
-                        <p>Etiam sit amet placerat lacus, sed placerat mauris. Vestibulum malesuada vehicula sapien non tempus.</p>
-                        <div class="dev"></div>
-                        <ul>
-                            <li><i class="fa fa-check"></i>4 TB Cloud Space</li>
-                            <li><i class="fa fa-check"></i>20 TB Data Transfer</li>
-                            <li><i class="fa fa-check"></i>Fully Managed Panel</li>
-                            <li><i class="fa fa-check"></i>15-minute Quick Support</li>
-                            <li><i class="fa fa-check"></i>Top Notch Web Apps</li>
-                            <li><i class="fa fa-check"></i>Advanced Scalable</li>
-                        </ul>
-                        <a href="#" class="main-button">Take it now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Pricing Ends Here -->
-    <!-- Features Starts Here -->
-    <div class="features-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-heading">
-                        <span>Best Quality for you</span>
-                        <h2>Cloud Features</h2>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feature-item">
-                        <div class="icon">
-                            <img src="~/Content/assets/images/feature-01.png" alt="">
-                        </div>
-                        <h4>Load Balanced</h4>
-                        <p>Nulla nisl ex, vehicula in urna nec, commodo consectetur augue. Vivamus nec metus mauris. Praesent lacinia tempus urna.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feature-item">
-                        <div class="icon">
-                            <img src="~/Content/assets/images/feature-01.png" alt="">
-                        </div>
-                        <h4>99.9% Uptime Guaranteed</h4>
-                        <p>Lorem ipsum dolor ame taxidermy sriracha cardigan salvia actually vice migas en pin sustainable carry scenester.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feature-item">
-                        <div class="icon">
-                            <img src="~/Content/assets/images/feature-01.png" alt="">
-                        </div>
-                        <h4>Top Reliability</h4>
-                        <p>Lorem ipsum dolor ame taxidermy sriracha cardigan salvia actually vice migas en pin sustainable carry scenester.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feature-item">
-                        <div class="icon">
-                            <img src="~/Content/assets/images/feature-01.png" alt="">
-                        </div>
-                        <h4>High Security</h4>
-                        <p>Lorem ipsum dolor ame taxidermy sriracha cardigan salvia actually vice migas en pin sustainable carry scenester.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feature-item">
-                        <div class="icon">
-                            <img src="~/Content/assets/images/feature-01.png" alt="">
-                        </div>
-                        <h4>Quality Hardwares</h4>
-                        <p>Lorem ipsum dolor ame taxidermy sriracha cardigan salvia actually vice migas en pin sustainable carry scenester.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="feature-item">
-                        <div class="icon">
-                            <img src="~/Content/assets/images/feature-01.png" alt="">
-                        </div>
-                        <h4>Network Solutions</h4>
-                        <p>Lorem ipsum dolor ame taxidermy sriracha cardigan salvia actually vice migas en pin sustainable carry scenester.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Features Ends Here -->
-    <!-- Testimonials Starts Here -->
-    <div class="testimonials-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-heading">
-                        <span>Testimonials</span>
-                        <h2>What they say about us</h2>
-                    </div>
-                </div>
-                <div class="col-md-10 offset-md-1">
-                    <div class="owl-testimonials owl-carousel">
-                        <div class="testimonial-item">
-                            <div class="icon">
-                                <i class="fa fa-quote-right"></i>
+                            <section class="actions-buttons">
+                                <ul class="actions-buttons-list u-flex">
+                                    <li class="actions-buttons-item"><button class="actions-buttons-button"><span class="icon">👍</span><span class="text">Up vote</span></button></li>
+                                    <li class="actions-buttons-item"><button class="actions-buttons-button"><span class="icon">👎</span><span class="text">Down Vote</span></button></li>
+                                    <li class="actions-buttons-item"><button class="actions-buttons-button"><span class="icon">💬</span><span class="text">Comment</span></button></li>
+                                </ul>
+                            </section>
+                        </article>
+                    </li>
+                }
+                <div id="lazyLoadPlaceholder"></div>
+            </ul>
+        </main>
+        <aside class="side-b" style="padding-right: 20px">
+            <section class="common-section">
+                <h2 class="section-title">Explore more...</h2>
+                <ul class="common-list">
+                    <li class="common-list-item">
+                        <a href="https://www.w3schools.com/html/default.asp" target="_blank" class="common-list-button is-ads">
+                            <div class="image"><img src="https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2022/04/web-developer-portfolio.webp" width="115" alt=""></div>
+                            <div class="text">
+                                <h4 class="ads-title">How to be a web developer?</h4>
+                                <p class="ads-url">W3Schools.com</p>
                             </div>
-                            <p>"Ut elementum a elit sed tristique. Pellentesque sed semper erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean quam erat, rutrum ut malesuada."</p>
-                            <h4>William Smith</h4>
-                            <span>New Co-Founder</span>
-                        </div>
-                        <div class="testimonial-item">
-                            <div class="icon">
-                                <i class="fa fa-quote-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="common-list">
+                    <li class="common-list-item">
+                        <a href="https://developer.android.com/courses?gad_source=1&gclid=EAIaIQobChMI-5yyssTQhAMVaF4PAh1VwQHwEAAYASAAEgKApvD_BwE&gclsrc=aw.ds" target="_blank" class="common-list-button is-ads">
+                            <div class="image"><img src="https://assets.robogarden.cn/robogarden-cdn/robogarden-new/Articles/upload/blogs/lg-lean-to-code-to-be-a-mobile-developer.jpg" width="115" alt=""></div>
+                            <div class="text">
+                                <h4 class="ads-title">How to be a mobile developer?</h4>
+                                <p class="ads-url">MobileDeveloper.com</p>
                             </div>
-                            <p>"Quisque lacinia sed velit et maximus. Quisque dictum, lacus a malesuada finibus, arcu magna luctus risus, eu accumsan risus elit vitae lacus."</p>
-                            <h4>Vinny Smart</h4>
-                            <span>Digital Marketer</span>
-                        </div>
-                        <div class="testimonial-item">
-                            <div class="icon">
-                                <i class="fa fa-quote-right"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="common-list">
+                    <li class="common-list-item">
+                        <a href="https://jobify.works/" target="_blank" class="common-list-button is-ads">
+                            <div class="image"><img src="https://img.etimg.com/thumb/msid-102034619,width-650,height-488,imgsize-41942,resizemode-75/job-offers.jpg" width="115" alt=""></div>
+                            <div class="text">
+                                <h4 class="ads-title">Looking for an opportunity to have an internship?</h4>
+                                <p class="ads-url">Admin@Recruit.hire</p>
                             </div>
-                            <p>"Vestibulum mauris ipsum, tempor tincidunt justo sit amet, bibendum tincidunt dui. Aenean molestie, odio quis viverra ultricies, leo tellus lacinia neque, sit amet maximus tortor nunc aliquet felis."</p>
-                            <h4>Trevor Liam</h4>
-                            <span>Technology Chef</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="common-list">
+                    <li class="common-list-item">
+                        <a href="https://www.labfront.com/?utm_term=analytics%20academic&utm_campaign=Labfront.com:+Jan+2022&utm_source=adwords&utm_medium=ppc&hsa_acc=9515928370&hsa_cam=15850831083&hsa_grp=135506529019&hsa_ad=591781276733&hsa_src=g&hsa_tgt=kwd-936556976070&hsa_kw=analytics%20academic&hsa_mt=b&hsa_net=adwords&hsa_ver=3&gad_source=1&gclid=EAIaIQobChMIr5Twr8bQhAMVCaZmAh3IHww6EAAYASAAEgLeUfD_BwE" target="_blank" class="common-list-button is-ads">
+                            <div class="image"><img src="https://online.maryville.edu/wp-content/uploads/sites/97/2023/10/MVU-MSBDA-2020-Q3-Skyscraper-Top-4-Data-Analysis-Techniques-That-Create-Business-Value-header-v2.jpg" width="115" alt=""></div>
+                            <div class="text">
+                                <h4 class="ads-title">Learning data analysis?</h4>
+                                <p class="ads-url">DataAnalysis.learn</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <button onclick="window.location.href='/Explore/News'" class="common-more">
+                    <span class="text">See More</span>
+                    <span class="icon">🔍</span>
+                </button>
+            </section>
+        </aside>
     </div>
-    <!-- Testimonials Ends Here -->
-    <!-- Footer Starts Here -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="footer-item">
-                        <div class="footer-heading">
-                            <h2>About Us</h2>
-                        </div>
-                        <p>Host Cloud is provided by TemplateMo for free of charge. Anyone can download and use this CSS Bootstrap template for commercial purposes.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="footer-item">
-                        <div class="footer-heading">
-                            <h2>Hosting Plans</h2>
-                        </div>
-                        <ul class="footer-list">
-                            <li><a href="#">Basic Cloud 5X</a></li>
-                            <li><a href="#">Cloud VPS 10X</a></li>
-                            <li><a href="#">Advanced Cloud</a></li>
-                            <li><a href="#">Custom Designs</a></li>
-                            <li><a href="#">Special Solutions</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="footer-item">
-                        <div class="footer-heading">
-                            <h2>Useful Links</h2>
-                        </div>
-                        <ul class="footer-list">
-                            <li><a href="#">Cloud Hosting Platform</a></li>
-                            <li><a href="#">Light Speed Zone</a></li>
-                            <li><a href="#">Content Delivery Network</a></li>
-                            <li><a href="#">Customer Support</a></li>
-                            <li><a href="#">Latest News</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="footer-item">
-                        <div class="footer-heading">
-                            <h2>More Information</h2>
-                        </div>
-                        <ul class="footer-list">
-                            <li>Phone: <a href="#">010-020-0560</a></li>
-                            <li>Email: <a href="#">mail@company.com</a></li>
-                            <li>Support: <a href="#">support@company.com</a></li>
-                            <li>Website: <a href="#">www.company.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="sub-footer">
-                        <p>
-                            Copyright &copy; 2020 Cloud Hosting Company
-                            - Designed by <a rel="nofollow" href="https://templatemo.com">TemplateMo</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer Ends Here -->
-    <!-- Bootstrap core JavaScript -->
+    <!-- partial -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src="~/Content/assets/js/script.js"></script>
     <script src="~/Content/vendor/jquery/jquery.min.js"></script>
     <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -371,7 +181,8 @@
     <script src="~/Content/assets/js/custom.js"></script>
     <script src="~/Content/assets/js/owl.js"></script>
     <script src="~/Content/assets/js/accordions.js"></script>
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 
     <script language="text/Javascript">
 
@@ -383,6 +194,31 @@
                 t.style.color = '#fff';
             }
         }
-    </script>
 
+        var currentPage = @Model.CurrentPage;
+        var pageSize = @Model.PageSize;
+        var totalPostsCount = @Model.TotalPostsCount;
+
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                loadMorePosts();
+            }
+        });
+
+        function loadMorePosts() {
+            if (currentPage * pageSize >= totalPostsCount) {
+                return; // All posts have been loaded
+            }
+
+            var loadUrl = '@Url.Action("Index", "Home")';
+            var nextPage = currentPage + 1;
+
+            $.get(loadUrl, { page: nextPage, pageSize: pageSize })
+                .done(function (data) {
+                    $('#lazyLoadPlaceholder').append(data);
+
+                    currentPage = nextPage;
+                });
+        }
+    </script>
 </body>

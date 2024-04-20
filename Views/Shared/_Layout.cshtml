@@ -35,43 +35,39 @@
 
      }
     
-    <div class="wrapper">
+    <div class="wrapper" style="background: #9fcaf5 ">
         <!-- Main Header wrapper -->
-        <header class="main-header">
+        <header class="main-header" style="height: 80px">
             <nav class="navbar navbar-expand-lg">
-                <div class="container">
+                <div class="container" style="margin-top: 15px">
                     <a class="navbar-brand" href="/Home/Index"><img src="~/Content/logo/Logo.svg" style="max-width: 100px; max-height: 100px; margin-top: -15px" /></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarResponsive">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Home/About">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Home/Test">Our Services</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="Contact">Contact Us</a>
-                            </li>
-                        </ul>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarResponsive">
+                        <div style="display: flex; align-items: center">
+                            <input style="width: 600px; height: 40px; border-radius: 5px;" type="text" name="search" value="" placeholder="Explore posts" />
+                            <button><span style="height: 40px; font-size: 33px">🔍</span></button>
+                        </div>
                     </div>
-                    
+
+
                     <div class="functional-buttons">
 
                         @if (status)
                         {
-                            <ul>
-                                <li>Welcome back @Session["USER_NAME"]!</li>
-                                <li>@Html.ActionLink("Profile", "Profile", "Login", new { area = "" }, new { @class = "nav-link" })</li>
+                            <ul style="list-style-type: none; margin: 0; padding: 0;">
+                                <li style="display: inline-block; margin-right: 10px; font-size: 16px; color: beige">
+                                    Welcome back <span style="font-weight: bold; color: blanchedalmond">@Session["USER_NAME"] !</span>
+                                </li>
+
                                 <li>
-                                    <form action="@Url.Action("Logout", "Login")" method="post">
-                                        <button type="submit" class="nav-link">Logout</button>
-                                    </form>
+                                    <button onclick="window.location.href='/User/Profile';" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 16px; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#0056b3'" onmouseout="this.style.backgroundColor='#007bff'">Profile <i class="fa fa-user" aria-hidden="true"></i></button>
+                                </li>
+
+                                <li style="display: inline-block; font-size: 16px;">
+                                    <button onclick="window.location.href='/Login/Logout';" style="display: inline-block; padding: 10px 20px; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 16px; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#c82333'" onmouseout="this.style.backgroundColor='#dc3545'">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></button>
+
                                 </li>
                             </ul>
                         }
