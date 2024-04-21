@@ -86,7 +86,7 @@
                     <li class="main-feed-item">
                         <article class="common-post">
                             <div class="common-post-content common-content">
-                                <h4 style="margin-bottom: 10px">🔵 <b>@post.Owner</b></h4>
+                                <h4 style="margin-bottom: 10px">🧔 <b>@post.Owner</b></h4>
                                 <p><b>@post.Title</b></p>
 
                                 <p>
@@ -106,9 +106,21 @@
                             </div>
                             <section class="actions-buttons">
                                 <ul class="actions-buttons-list u-flex">
-                                    <li class="actions-buttons-item"><button class="actions-buttons-button"><span class="icon">👍</span><span class="text">Up vote</span></button></li>
-                                    <li class="actions-buttons-item"><button class="actions-buttons-button"><span class="icon">👎</span><span class="text">Down Vote</span></button></li>
-                                    <li class="actions-buttons-item"><button class="actions-buttons-button"><span class="icon">💬</span><span class="text">Comment</span></button></li>
+                                    <li class="actions-buttons-item">
+                                        <button class="actions-buttons-button" onclick="upVote('@post.UniqKey')">
+                                            <span class="icon">👍</span><span class="text">Up Vote</span>
+                                        </button>
+                                    </li>
+                                    <li class="actions-buttons-item">
+                                        <button class="actions-buttons-button" onclick="downVote('@post.UniqKey')">
+                                            <span class="icon">👎</span><span class="text">Down Vote</span>
+                                        </button>
+                                    </li>
+                                    <li class="actions-buttons-item">
+                                        <button class="actions-buttons-button" onclick="navigateToPostDetail('@post.UniqKey')">
+                                            <span class="icon">💬</span><span class="text">Comment</span>
+                                        </button>
+                                    </li>
                                 </ul>
                             </section>
                         </article>
@@ -221,4 +233,22 @@
                 });
         }
     </script>
+
+    @* Handle for post down vote, up vote and comment*@
+    <script>
+
+        function navigateToPostDetail(postKey) {
+            window.location.href = '/Post/PostDetail?postKey=' + postKey + '#test';
+        }
+
+        function upVote(postKey) {
+            console.log("User up vote! " + postKey);
+        }
+
+        function downVote(postKey) {
+            console.log("User down vote! " + postKey);
+        }
+
+    </script>
+
 </body>

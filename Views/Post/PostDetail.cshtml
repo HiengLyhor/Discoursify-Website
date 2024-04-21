@@ -2,10 +2,56 @@
 @{
     ViewBag.Title = "PostDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Post post = Model;
 }
 
 <body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="~/Content/assets/css/style.css"> @*This is the style for nav bar*@
-    <h1>Hi</h1>
+    @* Need to make the page show descript post in the middle and side bar contains nothing*@
+<div class="common-structure">
+
+    <aside class="side-a" style="padding-left: 20px">
+        <section class="common-section">
+            <a href="@Url.Action("Index", "Home")" style="margin-top: 20px; margin-left: 20px; display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Back?</a>
+        </section>
+    </aside>
+
+    <main class="main-feed">
+
+        @* This is for the post title*@
+        <div>
+            <h1 style="font-weight: bold; font-size: 35px; font-family: 'Times New Roman', Times, serif; margin-top: 15px">@post.Title</h1>
+        </div>
+
+        @* This is for the post owner and post date*@
+        <div style="margin-top: 20px">
+
+            @* This is for show post owner and post date*@
+            <h2>
+                Created by: <span style="font-weight: bold">@post.Owner</span>
+                &emsp;&emsp;
+                <span>🟢</span> @post.PostDate
+            </h2>
+            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
+            @* Post image*@
+            <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="" style="margin-top: 40px; transform: scale(75%);">
+
+            @* This is for display post description*@
+            <h2 style="margin-top: 20px; line-height: 1.5; text-align: justify; text-justify: inter-word; font-size: 21px; color: #333; font-family: Arial, sans-serif;">
+                @post.Content
+            </h2>
+
+            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
+
+            <div id="test">Comment section</div>
+
+        </div>
+        
+    </main>
+
+    <aside class="side-b" style="padding-right: 20px">
+        <section class="common-section"></section>
+    </aside>
+</div>
 </body>

@@ -74,11 +74,111 @@ else
 {
 
 
-<link rel="stylesheet" href="~/Content/assets/css/style.css"><div class="common-structure">
-        <aside class="side-a">
-        </aside>
-        <main class="main-feed" style="margin-top: 50px">
+    <link rel="stylesheet" href="~/Content/assets/css/style.css">
 
+    <style>
+        /* Custom styles for the create post view */
+        .common-structure {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .side-a,
+        .side-b {
+            flex-basis: 20%;
+            height: 600px;
+            background-color: #f2f2f2;
+        }
+
+        .main-feed {
+            flex-basis: 60%;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            color: #721c24;
+        }
+
+        .fancy-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 30px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-control-file {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            margin-right: 10px;
+            font-size: 15px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            font-size: 15px;
+        }
+
+    </style>
+
+    <div class="common-structure">
+        <aside class="side-a"></aside>
+
+        <main class="main-feed">
             @if (TempData["ErrorPost"] != null)
             {
                 <div class="alert alert-danger">
@@ -101,12 +201,15 @@ else
                     <label for="content">Content:</label>
                     @Html.TextAreaFor(Model => Model.Content, new { @class = "form-control", @rows = "8", @required = "required" })
                 </div>
-                <button type="submit" class="btn btn-primary">Create Post</button>
-            }
 
+                <div class="btn-container">
+                    <button type="button" class="btn btn-back" onclick="window.location.href='/Home/Index'">Back?</button>
+                    <button type="submit" class="btn btn-primary">Create Post</button>
+                </div>
+            }
         </main>
-        <aside class="side-b">
-        </aside>
+
+        <aside class="side-b"></aside>
     </div>
 
 }
