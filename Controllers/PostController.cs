@@ -43,10 +43,18 @@ namespace Discoursify.Controllers
         public ActionResult PostDetail(string postKey)
         {
             Post postData = new Post();
+            List<PostComment> comments = new List<PostComment>();
+
             try
             {
                 postData = postData.PostDetail(postKey);
+                comments = new PostComment().GetPostComments(postKey);
 
+                if(comments != null)
+                {
+                    postData.PostComments = comments;
+                }
+                
                 if (postData != null)
                 {
 
@@ -60,7 +68,8 @@ namespace Discoursify.Controllers
 
                 TempData["Message"] = "There is an error during processing your process.";
                 Console.WriteLine(ex.Message);
-                return View();
+                postData = null;
+                return View(postData);
 
             }
 

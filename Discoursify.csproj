@@ -133,6 +133,7 @@
     <Compile Include="Models\LazyLoadView.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostComment.cs" />
     <Compile Include="Models\StaticContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

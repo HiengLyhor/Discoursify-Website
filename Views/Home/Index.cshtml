@@ -101,7 +101,7 @@
                                 <div class="reactions">👍</div>
                                 <div class="reactions-total">@post.Like</div>
                                 <div class="total-comments u-margin-inline-start">
-                                    <a>@post.CommentCount Comments</a>
+                                    <a onclick="navigateToPostDetail('@post.UniqKey')">@post.CommentCount Comments</a>
                                 </div>
                             </div>
                             <section class="actions-buttons">
@@ -238,7 +238,7 @@
     <script>
 
         function navigateToPostDetail(postKey) {
-            window.location.href = '/Post/PostDetail?postKey=' + postKey + '#test';
+            window.location.href = '/Post/PostDetail?postKey=' + postKey + '#comment-section';
         }
 
         function upVote(postKey) {

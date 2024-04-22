@@ -194,7 +194,6 @@ else
                 </div>
                 <div class="form-group">
                     <label for="main-poster">Main Poster Image:</label>
-                    @*@Html.TextBoxFor(model => model.ImageUrl, new { @class = "form-control-file", @type = "file", @id = "main-poster", @name = "main-poster", @accept = "image/*", @required = "required" })*@
                     @Html.TextBoxFor(model => model.ImageFile, new { @class = "form-control-file", @type = "file", @id = "main-poster", @name = "main-poster", @accept = "image/*", @required = "required" })
                 </div>
                 <div class="form-group">

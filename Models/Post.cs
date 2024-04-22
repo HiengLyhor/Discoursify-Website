@@ -24,6 +24,8 @@ namespace Discoursify.Models
         public string PostDate { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
 
+        public List<PostComment> PostComments { get; set; }
+
         private static string CS = ConfigurationManager.ConnectionStrings["Discoursify"].ConnectionString;
 
         public string CreatePost(Post model)

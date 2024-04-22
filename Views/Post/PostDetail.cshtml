@@ -5,10 +5,91 @@
     Post post = Model;
 }
 
+<style>
+    .comment {
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .comment-creator {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .comment-date {
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 5px;
+    }
+
+    .comment-description {
+        color: #555;
+    }
+
+    .vote-buttons {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .vote-button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-size: 20px;
+        color: #777;
+    }
+
+    .comment-input-container {
+        margin-top: 20px;
+        max-width: 100%;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .comment-input {
+
+        height: 50px;
+        width: 88%;
+        max-width: 1000%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        resize: vertical;
+    }
+
+    .submit-button {
+        margin-top: 7px;
+        margin-left: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .error-message {
+        color: red;
+    }
+
+    .success-message {
+        color: green;
+    }
+   
+</style>
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
 <body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="~/Content/assets/css/style.css"> @*This is the style for nav bar*@
-    @* Need to make the page show descript post in the middle and side bar contains nothing*@
+
 <div class="common-structure">
 
     <aside class="side-a" style="padding-left: 20px">
@@ -43,11 +124,42 @@
             </h2>
 
             <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
+        </div>
 
-            <div id="test">Comment section</div>
+        <div id="comment-section" style="margin-top: 20px"></div>
+
+        <div class="comment-input-container">
+            <textarea id="comment-input" class="comment-input" placeholder="Write a comment..."></textarea>
+            <button id="submit-comment" class="submit-button">Submit</button>
+        </div>
+        <div id="handle-error"></div>
+
+        <div style="margin-top: 20px; margin-bottom: 100px">
+
+            @if (post.PostComments.Count != 0)
+            {
+                <div style="margin-top: 20px">Comment section</div>
+                foreach (var comment in post.PostComments)
+                {
+                    <div class="comment">
+                        <div class="vote-buttons">
+                            <button class="vote-button" id="upVoteCmt">&#9650;</button>
+                            <br />
+                            <button class="vote-button" id="downVoteCmt">&#9660;</button>
+                        </div>
+                        <div class="comment-creator">🔵 @comment.CmtOwner</div>
+                        <div class="comment-date">@comment.CommentDate</div>
+                        <div class="comment-description">@comment.Description</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div style="color: #616569; margin-bottom: 100px">Why don't you leave a comment here? The comments section is currently empty.</div>
+            }
 
         </div>
-        
+
     </main>
 
     <aside class="side-b" style="padding-right: 20px">
@@ -55,3 +167,48 @@
     </aside>
 </div>
 </body>
+
+<script>
+
+    var submitButton = document.getElementById("submit-comment");
+    var handleErrorDiv = document.getElementById("handle-error");
+
+    submitButton.addEventListener("click", function () {
+        // Get the comment data from the textarea
+        var commentTextarea = document.querySelector(".comment-input");
+        var comment = commentTextarea.value;
+
+        // Make the request to submit the comment data
+        fetch("your-submit-url", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ comment: comment })
+        })
+            .then(function (response) {
+                // Handle the response from the server
+                if (response.ok) {
+                    handleErrorDiv.textContent = "Comment submitted successfully!";
+
+                    handleErrorDiv.classList.remove("error-message");
+                    handleErrorDiv.classList.add("success-message");
+                    // Perform any additional actions if needed
+                } else {
+                    handleErrorDiv.textContent = "Error submitting comment. Status: " + response.status;
+
+                    handleErrorDiv.classList.remove("success-message");
+                    handleErrorDiv.classList.add("error-message");
+                    // Handle the error case
+                }
+            })
+            .catch(function (error) {
+                handleErrorDiv.textContent = "Error submitting comment: " + error.message;
+
+                handleErrorDiv.classList.remove("success-message");
+                handleErrorDiv.classList.add("error-message");
+                // Handle any network or other errors
+            });
+    });
+
+</script>
