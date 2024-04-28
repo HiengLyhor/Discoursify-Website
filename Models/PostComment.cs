@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Configuration;
+using System.Reflection;
 
 namespace Discoursify.Models
 {
@@ -69,6 +70,38 @@ namespace Discoursify.Models
                     con.Close();
                 }
             }
+        }
+
+        public bool CreateComment(string postKey, string owner, string content)
+        {
+            try
+            {
+                if(postKey == null)
+                {
+                    return false;
+                }
+
+                using (SqlConnection con = new SqlConnection(CS))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("admComment", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@CMD", "Create");
+                        cmd.Parameters.AddWithValue("@pOWNER", owner);
+                        cmd.Parameters.AddWithValue("@pCONTENT", content);
+                        cmd.Parameters.AddWithValue("@pPOSTKEY", postKey);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return true;    
+
+            } catch(Exception ex)
+            { 
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            
         }
     }
 }

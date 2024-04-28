@@ -61,7 +61,7 @@ namespace Discoursify.Controllers
                     return View(postData);
 
                 }
-                return View();
+                return View("~/Home/Index");
             }
             catch (Exception ex)
             {
@@ -69,8 +69,68 @@ namespace Discoursify.Controllers
                 TempData["Message"] = "There is an error during processing your process.";
                 Console.WriteLine(ex.Message);
                 postData = null;
-                return View(postData);
+                return View("~/Home/Index");
 
+            }
+
+        }
+
+        public JsonResult CreateComment(string comment, string postKey)
+        {
+            try
+            {
+
+                if (Session["USER_NAME"] == null)
+                {
+                    var invalidOwner = new { code = 400, message = "Please kindly login or sign up first to comment." };
+                    return Json(invalidOwner);
+                }
+
+                // Perform add comment to db
+                bool create = new PostComment().CreateComment(postKey, Session["USER_NAME"].ToString(), comment);
+
+                if (create)
+                {
+                    var data = new { code = 200, message = "Success" };
+                    return Json(data);
+                }
+
+                var dataFalse = new { code = 400, message = "There is an error during processing your process." };
+                return Json(dataFalse);
+
+            }
+            catch (Exception ex)
+            {
+                var errorData = new { code = 400, message = "An unexpected error during creating the comment.", ErrorMessage = ex.Message };
+                return Json(errorData);
+            }
+        }
+
+        public JsonResult Vote(string method, string postKey)
+        {
+
+            try
+            {
+                if (Session["USER_NAME"] == null)
+                {
+                    var invalidOwner = new { code = 400, message = "Please kindly login or sign up first to up vote/down vote." };
+                    return Json(invalidOwner);
+                }
+                bool vote = new Post().Vote(method, Session["USER_NAME"].ToString(), postKey);
+
+                if (vote)
+                {
+                    var data = new { code = 200, message = "Success" };
+                    return Json(data);
+                }
+
+                var dataFalse = new { code = 400, message = "There is an error during processing your process." };
+                return Json(dataFalse);
+            }
+            catch (Exception ex)
+            {
+                var errorData = new { code = 400, message = "An unexpected error during processing your process.", ErrorMessage = ex.Message };
+                return Json(errorData);
             }
 
         }

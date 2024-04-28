@@ -9,6 +9,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Web.Helpers;
 using System.Configuration;
+using System.Web.UI.WebControls;
 
 namespace Discoursify.Models
 {
@@ -59,7 +60,6 @@ namespace Discoursify.Models
 
                 using (SqlConnection con = new SqlConnection(CS))
                 {
-                    // TODO: INSERT CREATE POST INTO DATABASE
                     con.Open();
                     using (SqlCommand cmd = new SqlCommand("admPost", con))
                     {
@@ -80,6 +80,55 @@ namespace Discoursify.Models
                 return ex.Message;
             }
 
+        }
+
+
+        public bool Vote(string method, string owner, string postKey)
+        {
+            try
+            {
+                if (owner == null)
+                {
+                    return false;
+                }
+
+                if(method == "DOWN")
+                {
+                    method = "DownVote";
+                }
+                else if(method == "UP")
+                {
+                    method = "UpVote";
+                }
+                else if(method == "Downcmt")
+                {
+                    method = "DownCmt";
+                }
+                else if(method == "UPcmt")
+                {
+                    method = "UpCmt";
+                }
+
+                using (SqlConnection con = new SqlConnection(CS))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("admPost", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@CMD", method);
+                        cmd.Parameters.AddWithValue("@OWNER", owner);
+                        cmd.Parameters.AddWithValue("@PostKey", postKey);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public Post PostDetail(string postKey)

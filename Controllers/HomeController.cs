@@ -13,25 +13,19 @@ namespace Discoursify.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(int page = 1, int pageSize = 10)
+        public ActionResult Index(string filter)
         {
             if (TempData["SuccessMessage"] != null)
             {
                 ViewBag.SuccessMessage = TempData["SuccessMessage"];
             }
 
-            int postsToSkip = (page - 1) * pageSize;
-
-            // Retrieve the posts from the database based on the calculated skip and take
-            var posts = new LazyLoadView().GetPostsFromDatabase(postsToSkip, pageSize);
+            var posts = new LazyLoadView().GetPostsFromDatabase(filter);
 
             // Pass the posts and other relevant data to the view
             var model = new LazyLoadView
             {
-                Posts = posts,
-                CurrentPage = page,
-                PageSize = pageSize,
-                TotalPostsCount = 10
+                Posts = posts
             };
 
             return View(model);

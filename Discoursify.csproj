@@ -190,6 +190,13 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Image\1024334019_Screenshot 2024-01-17 195219.png" />
+    <Content Include="Image\1641449869_12.jpg" />
+    <Content Include="Image\2116309473_កម្មវិធី.jpg" />
+    <Content Include="Image\43065270_2.night-mountains-minimalist-8k-wo.jpg" />
+    <Content Include="Image\43668479_Screenshot 2023-12-06 175411.png" />
+    <Content Include="Image\48310878_logo-no-background.png" />
+    <Content Include="Image\712807543_Screenshot 2023-12-02 144510.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -227,10 +234,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Views\Index\about.html" />
-    <Content Include="Views\Index\contact.html" />
-    <Content Include="Views\Index\index.html" />
-    <Content Include="Views\Index\services.html" />
     <Content Include="Views\Login\NotFound.css" />
     <Content Include="Views\Login\script.js" />
     <Content Include="Views\Login\style.css" />
@@ -248,7 +251,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Index\Index.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\SignUp.cshtml" />
     <Content Include="Views\Login\NotFound.cshtml" />
@@ -258,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

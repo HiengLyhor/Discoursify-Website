@@ -81,52 +81,59 @@
         </aside>
         <main class="main-feed">
             <ul class="main-feed-list">
-                @foreach (var post in lazyLoadView.Posts)
+
+                @if (lazyLoadView.Posts != null && lazyLoadView.Posts.Any())
                 {
-                    <li class="main-feed-item">
-                        <article class="common-post">
-                            <div class="common-post-content common-content">
-                                <h4 style="margin-bottom: 10px">🧔 <b>@post.Owner</b></h4>
-                                <p><b>@post.Title</b></p>
+                    foreach (var post in lazyLoadView.Posts)
+                    {
+                        <li class="main-feed-item">
+                            <article class="common-post">
+                                <div class="common-post-content common-content">
+                                    <h4 style="margin-bottom: 10px">🧔 <b>@post.Owner</b></h4>
+                                    <p><b>@post.Title</b></p>
 
-                                <p>
-                                    @post.Content
-                                </p>
+                                    <p>
+                                        @post.Content
+                                    </p>
 
-                                <a class="embed-content" href="/Post/PostDetail?postKey=@post.UniqKey">
-                                    <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="">
-                                </a>
-                            </div>
-                            <div class="summary u-flex">
-                                <div class="reactions">👍</div>
-                                <div class="reactions-total">@post.Like</div>
-                                <div class="total-comments u-margin-inline-start">
-                                    <a onclick="navigateToPostDetail('@post.UniqKey')">@post.CommentCount Comments</a>
+                                    <a class="embed-content" href="/Post/PostDetail?postKey=@post.UniqKey">
+                                        <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="">
+                                    </a>
                                 </div>
-                            </div>
-                            <section class="actions-buttons">
-                                <ul class="actions-buttons-list u-flex">
-                                    <li class="actions-buttons-item">
-                                        <button class="actions-buttons-button" onclick="upVote('@post.UniqKey')">
-                                            <span class="icon">👍</span><span class="text">Up Vote</span>
-                                        </button>
-                                    </li>
-                                    <li class="actions-buttons-item">
-                                        <button class="actions-buttons-button" onclick="downVote('@post.UniqKey')">
-                                            <span class="icon">👎</span><span class="text">Down Vote</span>
-                                        </button>
-                                    </li>
-                                    <li class="actions-buttons-item">
-                                        <button class="actions-buttons-button" onclick="navigateToPostDetail('@post.UniqKey')">
-                                            <span class="icon">💬</span><span class="text">Comment</span>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </section>
-                        </article>
-                    </li>
+                                <div class="summary u-flex">
+                                    <div class="reactions">👍</div>
+                                    <div class="reactions-total">@post.Like</div>
+                                    <div class="total-comments u-margin-inline-start">
+                                        <a onclick="navigateToPostDetail('@post.UniqKey')">@post.CommentCount Comments</a>
+                                    </div>
+                                </div>
+                                <section class="actions-buttons">
+                                    <ul class="actions-buttons-list u-flex">
+                                        <li class="actions-buttons-item">
+                                            <button id="likeButton" class="actions-buttons-button" onclick="upVote('@post.UniqKey')">
+                                                <span class="icon">👍</span><span class="text">Up Vote</span>
+                                            </button>
+                                        </li>
+                                        <li class="actions-buttons-item">
+                                            <button class="actions-buttons-button" onclick="downVote('@post.UniqKey')">
+                                                <span class="icon">👎</span><span class="text">Down Vote</span>
+                                            </button>
+                                        </li>
+                                        <li class="actions-buttons-item">
+                                            <button class="actions-buttons-button" onclick="navigateToPostDetail('@post.UniqKey')">
+                                                <span class="icon">💬</span><span class="text">Comment</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </article>
+                        </li>
+                    }
                 }
-                <div id="lazyLoadPlaceholder"></div>
+                else
+                {
+                    <h1 style="text-align: center; margin-top: 10px; color: #616569">Oops! There is no post related with what you search.</h1>
+                }
             </ul>
         </main>
         <aside class="side-b" style="padding-right: 20px">
@@ -207,34 +214,9 @@
             }
         }
 
-        var currentPage = @Model.CurrentPage;
-        var pageSize = @Model.PageSize;
-        var totalPostsCount = @Model.TotalPostsCount;
 
-        $(window).on('scroll', function () {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-                loadMorePosts();
-            }
-        });
-
-        function loadMorePosts() {
-            if (currentPage * pageSize >= totalPostsCount) {
-                return; // All posts have been loaded
-            }
-
-            var loadUrl = '@Url.Action("Index", "Home")';
-            var nextPage = currentPage + 1;
-
-            $.get(loadUrl, { page: nextPage, pageSize: pageSize })
-                .done(function (data) {
-                    $('#lazyLoadPlaceholder').append(data);
-
-                    currentPage = nextPage;
-                });
-        }
     </script>
 
-    @* Handle for post down vote, up vote and comment*@
     <script>
 
         function navigateToPostDetail(postKey) {
@@ -243,12 +225,35 @@
 
         function upVote(postKey) {
             console.log("User up vote! " + postKey);
+            $.ajax({
+                url: '/Post/Vote?method=UP&postKey=' + postKey,
+                type: 'POST',
+                contentType: 'application/json',
+                success: setTimeout(function () {
+                    location.reload();
+                }, 0),
+            });
         }
 
         function downVote(postKey) {
             console.log("User down vote! " + postKey);
+            $.ajax({
+                url: '/Post/Vote?method=DOWN&postKey=' + postKey,
+                type: 'POST',
+                contentType: 'application/json',
+                success: setTimeout(function () {
+                    location.reload();
+                }, 0),
+            });
         }
 
     </script>
+
+    <style>
+        .button-liked {
+            background-color: red; /* Change this to the desired color */
+            color: white; /* Change this to the desired text color */
+        }
+    </style>
 
 </body>

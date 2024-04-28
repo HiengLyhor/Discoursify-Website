@@ -68,7 +68,7 @@
                                     <button type="button" id="toggleConfirmPasswordField" class="password-toggle-btn"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="forms_field">
-                                    @Html.DropDownListFor(m => m.Gender, new SelectList(new[] { "Male", "Female", "Other" }), "Your Gender", new { @class = "forms_field-input" })
+                                    @Html.DropDownListFor(m => m.Gender, new SelectList(new[] { "Male", "Female", "Other" }), "Gender", new { @class = "forms_field-input" })
                                 </div>
                                 <div class="forms_field">
                                     @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "forms_field-input", @type = "date", @placeholder = "Date of Birth", @required = "required" })

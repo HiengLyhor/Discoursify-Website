@@ -5,19 +5,17 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Configuration;
+using System.Web.Mvc;
 
 namespace Discoursify.Models
 {
     public class LazyLoadView
     {
         public IEnumerable<Post> Posts { get; set; }
-        public int CurrentPage { get; set; }
-        public int PageSize { get; set; }
-        public int TotalPostsCount { get; set; }
 
         private static string CS = ConfigurationManager.ConnectionStrings["Discoursify"].ConnectionString;
 
-        public IEnumerable<Post> GetPostsFromDatabase(int skip, int take)
+        public IEnumerable<Post> GetPostsFromDatabase(string filter)
         {
             using (SqlConnection con = new SqlConnection(CS))
             {
@@ -26,8 +24,8 @@ namespace Discoursify.Models
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@CMD", "GetPost");
-                    cmd.Parameters.AddWithValue("@Skip", skip);
-                    cmd.Parameters.AddWithValue("@Take", take);
+                    cmd.Parameters.AddWithValue("@Content",filter);
+                    cmd.Parameters.AddWithValue("@Title", filter);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {

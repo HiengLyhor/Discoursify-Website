@@ -1,12 +1,290 @@
 ﻿@using Discoursify.Models;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    FeedBack feedBack = Model;
 }
 
 <body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="~/Content/assets/css/style.css"> @*This is the style for nav bar*@
-    <h1>Hi</h1>
+    <div class="common-structure">
+        <aside class="side-a" style="padding-left: 20px">
+            <section class="common-section">
+                <a href="@Url.Action("Index", "Home")" style="margin-top: 20px; margin-left: 20px; display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Back</a>
+            </section>
+        </aside>
+        <main class="main-feed">
+            <div class="create-feedback">
+                <h2>Give us your feedback</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="content">Content:</label>
+                        <textarea id="content" name="content" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="rate">Rate:</label>
+                        <div class="rating">
+                            <input type="radio" id="star5" name="rate" value="5">
+                            <label for="star5" title="5 stars">&#9733;</label>
+                            <input type="radio" id="star4" name="rate" value="4">
+                            <label for="star4" title="4 stars">&#9733;</label>
+                            <input type="radio" id="star3" name="rate" value="3">
+                            <label for="star3" title="3 stars">&#9733;</label>
+                            <input type="radio" id="star2" name="rate" value="2">
+                            <label for="star2" title="2 stars">&#9733;</label>
+                            <input type="radio" id="star1" name="rate" value="1">
+                            <label for="star1" title="1 star">&#9733;</label>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hiddenTitle" name="hiddenTitle">
+                    <input type="hidden" id="hiddenContent" name="hiddenContent">
+                    <input type="hidden" id="hiddenRate" name="hiddenRate">
+                    <button type="submit">Submit</button>
+                    <div style="margin-top: 10px" id="handle-error"></div>
+                </form>
+
+            </div>
+
+            @if (feedBack.feedBacks.Count != 0)
+            {
+                foreach (var feedback in feedBack.feedBacks)
+                {
+                    <div class="card">
+                        <div class="card__owner">@feedback.Owner</div>
+                        <div class="card__date">@feedback.FeedbackDate</div>
+                        <div class="card__title">@feedback.Title</div>
+                        <div class="card__content">@feedback.Content</div>
+                        <div class="card__stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="fa fa-star" style="color: @(i <= feedback.Rate? "#ffbf00" : "#bbb")"></i>
+                            }
+                            <span>&ensp;@feedback.Rate star(s)</span>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <h1 style="color: #616569; text-align: center">Oops! There is no any feedback yet. Why don't you be the first one who give feedback to us?</h1>
+            }
+        </main>
+
+        <aside class="side-b" style="padding-right: 20px">
+            <section class="common-section"></section>
+        </aside>
+    </div>
+
 </body>
+<style>
+    .rating {
+        margin-right: 40%;
+        display: flex;
+        align-items: center;
+        direction: rtl;
+    }
 
+    .rating input {
+        display: none;
+    }
 
+    .rating label {
+        font-size: 50px;
+        color: #ccc;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+    .rating label:hover,
+    .rating label:hover ~ label,
+    .rating input:checked ~ label {
+        color: #ffbf00;
+    }
+
+    .create-feedback {
+        max-width: 100%;
+        background-color: #f5f5f5;
+        margin-top: 10px;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .create-feedback h2 {
+        font-size: 24px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        max-width: 100%;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        max-width: 100%;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .form-group input[type="number"] {
+        width: 60px;
+    }
+
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .card {
+        background-color: #f5f5f5;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card__owner {
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card__title {
+        font-size: 24px;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .card__content {
+        font-size: 16px;
+        color: #777;
+        margin-bottom: 10px;
+    }
+
+    .card__stars {
+        display: flex;
+        align-items: center;
+        color: #ffbf00;
+    }
+
+    .card__date {
+        color: #555;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .card__stars i {
+        margin-right: 5px;
+    }
+
+    .card__stars span {
+        font-size: 18px;
+    }
+
+    .error-message {
+        color: red;
+    }
+
+    .success-message {
+        color: green;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    var handleErrorDiv = document.getElementById("handle-error");
+
+    $(document).ready(function () {
+        const form = $('form');
+        const titleInput = $('#title');
+        const contentInput = $('#content');
+        const rateInputs = $('input[name="rate"]');
+
+        form.on('submit', function (event) {
+            event.preventDefault();
+
+            if (!validateRateSelection()) {
+                // Handle the case when the user has not selected a rating
+                handleErrorDiv.textContent = 'Please select a rating.';
+                handleErrorDiv.classList.remove("success-message");
+                handleErrorDiv.classList.add("error-message");
+                return;
+            }
+
+            const formData = {
+                title: titleInput.val(),
+                content: contentInput.val(),
+                rate: $('input[name="rate"]:checked').val()
+            };
+
+            $.ajax({
+                url: '/Feedback/Create',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    ; if (response.code === 200) {
+
+                        handleErrorDiv.textContent = "Feedback submitted successfully!";
+                        handleErrorDiv.classList.remove("error-message");
+                        handleErrorDiv.classList.add("success-message");
+
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+
+                    } else {
+                        handleErrorDiv.textContent = response.message;
+                        handleErrorDiv.classList.remove("success-message");
+                        handleErrorDiv.classList.add("error-message");
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr);
+
+                    handleErrorDiv.textContent = xhr.responseJSON.message;
+                    handleErrorDiv.classList.remove("success-message");
+                    handleErrorDiv.classList.add("error-message");
+                }
+            });
+        });
+
+        function validateRateSelection() {
+            for (let i = 0; i < rateInputs.length; i++) {
+                if (rateInputs[i].checked) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    });
+</script>

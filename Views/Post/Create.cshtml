@@ -49,10 +49,10 @@
             var cancelUrl = '@Url.Action("Index", "Home")';
             var loginUrl = '@Url.Action("Login", "Login")';
 
-            var modalHtml = '<div id="alertModal" class="modal" tabindex="-1" role="dialog" style="display: block;">';
+            var modalHtml = '<div id="alertModal" class="modal" tabindex="-1" role="dialog" style="display: block; background: #fffffc">';
             modalHtml += '<div class="modal-dialog" role="document">';
             modalHtml += '<div class="modal-content">';
-            modalHtml += '<div class="modal-header">';
+            modalHtml += '<div class="modal-header" style="background: #9fcaf5">';
             modalHtml += '<h5 class="modal-title">Oops!</h5>';
             modalHtml += '</div>';
             modalHtml += '<div class="modal-body">';
@@ -95,7 +95,7 @@ else
             flex-basis: 60%;
             margin-top: 50px;
             padding: 20px;
-            background-color: #fff;
+            background-color: #9fcaf5;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             border-radius: 4px;
         }
@@ -111,6 +111,7 @@ else
 
         .fancy-form {
             width: 100%;
+            background-color: #9fcaf5;
         }
 
         .form-group {
@@ -223,43 +224,43 @@ else
         background-color: #f8f8f8;
     }
 
-        .fancy-form label {
-            font-weight: bold;
-        }
+    .fancy-form label {
+        font-weight: bold;
+    }
 
-        .fancy-form input[type="text"],
-        .fancy-form textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            color: #333;
-        }
+    .fancy-form input[type="text"],
+    .fancy-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+    }
 
-        .fancy-form input[type="file"] {
-            border: none;
-            background-color: transparent;
-            padding: 0;
-            font-size: 14px;
-        }
+    .fancy-form input[type="file"] {
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        font-size: 14px;
+    }
 
-        .fancy-form button[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    .fancy-form button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-            .fancy-form button[type="submit"]:hover {
-                background-color: #0056b3;
-            }
+    .fancy-form button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
 </style>

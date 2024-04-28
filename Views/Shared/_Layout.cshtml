@@ -35,7 +35,7 @@
 
      }
     
-    <div class="wrapper" style="background: #9fcaf5 ">
+    <div class="wrapper" style="background: #9fcaf5">
         <!-- Main Header wrapper -->
         <header class="main-header" style="height: 80px">
             <nav class="navbar navbar-expand-lg">
@@ -46,8 +46,8 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-center" id="navbarResponsive">
                         <div style="display: flex; align-items: center">
-                            <input style="width: 600px; height: 40px; border-radius: 5px;" type="text" name="search" value="" placeholder="Explore posts" />
-                            <button><span style="height: 40px; font-size: 33px">🔍</span></button>
+                            <input style="width: 600px; height: 40px; border-radius: 5px;" type="text" id="searchInput" name="search" value="" placeholder="Explore posts" />
+                            <button id="search-content"><span style="height: 40px; font-size: 33px"> &ensp;<i class="fa fa-search" aria-hidden="true"></i></span></button>
                         </div>
                     </div>
 
@@ -95,4 +95,11 @@
 </body>
 
 </html>
+<script>
+    document.getElementById("search-content").addEventListener("click", function () {
+        var filter = document.getElementById("searchInput").value;
+        window.location.href = "/Home/Index?filter=" + encodeURIComponent(filter);
+    });
+</script>
+
 

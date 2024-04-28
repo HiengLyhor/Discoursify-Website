@@ -5,6 +5,91 @@
     Post post = Model;
 }
 
+
+<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="~/Content/assets/css/style.css"> @*This is the style for nav bar*@
+
+<div class="common-structure">
+
+    <aside class="side-a" style="padding-left: 20px">
+        <section class="common-section">
+            <a href="@Url.Action("Index", "Home")" style="margin-top: 20px; margin-left: 20px; display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Back?</a>
+        </section>
+    </aside>
+
+    <main class="main-feed">
+
+        @* This is for the post title*@
+        <input class="visually-hidden postKey" id="postKey" value="@post.UniqKey"/>
+        <div>
+            <h1 style="font-weight: bold; font-size: 35px; font-family: 'Times New Roman', Times, serif; margin-top: 15px">@post.Title</h1>
+        </div>
+
+        @* This is for the post owner and post date*@
+        <div style="margin-top: 20px">
+
+            @* This is for show post owner and post date*@
+            <h2>
+                Created by: <span style="font-weight: bold">@post.Owner</span>
+                &emsp;&emsp;
+                <span>🟢</span> @post.PostDate
+            </h2>
+            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
+            @* Post image*@
+            <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="" style="margin-top: 40px; transform: scale(75%);">
+
+            @* This is for display post description*@
+            <h2 style="margin-top: 20px; line-height: 1.5; text-align: justify; text-justify: inter-word; font-size: 21px; color: #333; font-family: Arial, sans-serif;">
+                @post.Content
+            </h2>
+
+            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
+        </div>
+
+        <div id="comment-section" style="margin-top: 20px"></div>
+
+        <div class="comment-input-container">
+            <textarea id="comment-input" class="comment-input" placeholder="Write a comment..."></textarea>
+            <button id="submit-comment" class="submit-button">Submit</button>
+        </div>
+        <div id="handle-error"></div>
+
+        <div style="margin-top: 20px; margin-bottom: 100px">
+
+            @if (post.PostComments.Count != 0)
+            {
+                <div style="margin-top: 20px">Comment section</div>
+                foreach (var comment in post.PostComments)
+                {
+                    <div class="comment">
+                        <div class="vote-buttons">
+                            <button class="vote-button" id="upVoteCmt" onclick="UpComment('@comment.UniqueKey')"><span style="font-size: 16px">@comment.UpVote</span> &#9650;</button>
+                            <br />
+                            <button class="vote-button" id="downVoteCmt" onclick="DownComment('@comment.UniqueKey')"><span style="font-size: 16px">@comment.DownVote</span> &#9660;</button>
+                        </div>
+                        <div class="comment-creator">🔵 @comment.CmtOwner</div>
+                        <div class="comment-date">@comment.CommentDate</div>
+                        <div class="comment-description">@comment.Description</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div style="color: #616569; margin-bottom: 100px">Why don't you leave a comment here? The comments section is currently empty.</div>
+            }
+
+        </div>
+
+    </main>
+
+    <aside class="side-b" style="padding-right: 20px">
+        <section class="common-section"></section>
+    </aside>
+</div>
+</body>
+
 <style>
     .comment {
         background-color: #f5f5f5;
@@ -54,7 +139,6 @@
     }
 
     .comment-input {
-
         height: 50px;
         width: 88%;
         max-width: 1000%;
@@ -83,132 +167,82 @@
     .success-message {
         color: green;
     }
-   
 </style>
-<script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
-<body>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-    <link rel="stylesheet" href="~/Content/assets/css/style.css"> @*This is the style for nav bar*@
-
-<div class="common-structure">
-
-    <aside class="side-a" style="padding-left: 20px">
-        <section class="common-section">
-            <a href="@Url.Action("Index", "Home")" style="margin-top: 20px; margin-left: 20px; display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Back?</a>
-        </section>
-    </aside>
-
-    <main class="main-feed">
-
-        @* This is for the post title*@
-        <div>
-            <h1 style="font-weight: bold; font-size: 35px; font-family: 'Times New Roman', Times, serif; margin-top: 15px">@post.Title</h1>
-        </div>
-
-        @* This is for the post owner and post date*@
-        <div style="margin-top: 20px">
-
-            @* This is for show post owner and post date*@
-            <h2>
-                Created by: <span style="font-weight: bold">@post.Owner</span>
-                &emsp;&emsp;
-                <span>🟢</span> @post.PostDate
-            </h2>
-            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
-            @* Post image*@
-            <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="" style="margin-top: 40px; transform: scale(75%);">
-
-            @* This is for display post description*@
-            <h2 style="margin-top: 20px; line-height: 1.5; text-align: justify; text-justify: inter-word; font-size: 21px; color: #333; font-family: Arial, sans-serif;">
-                @post.Content
-            </h2>
-
-            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
-        </div>
-
-        <div id="comment-section" style="margin-top: 20px"></div>
-
-        <div class="comment-input-container">
-            <textarea id="comment-input" class="comment-input" placeholder="Write a comment..."></textarea>
-            <button id="submit-comment" class="submit-button">Submit</button>
-        </div>
-        <div id="handle-error"></div>
-
-        <div style="margin-top: 20px; margin-bottom: 100px">
-
-            @if (post.PostComments.Count != 0)
-            {
-                <div style="margin-top: 20px">Comment section</div>
-                foreach (var comment in post.PostComments)
-                {
-                    <div class="comment">
-                        <div class="vote-buttons">
-                            <button class="vote-button" id="upVoteCmt">&#9650;</button>
-                            <br />
-                            <button class="vote-button" id="downVoteCmt">&#9660;</button>
-                        </div>
-                        <div class="comment-creator">🔵 @comment.CmtOwner</div>
-                        <div class="comment-date">@comment.CommentDate</div>
-                        <div class="comment-description">@comment.Description</div>
-                    </div>
-                }
-            }
-            else
-            {
-                <div style="color: #616569; margin-bottom: 100px">Why don't you leave a comment here? The comments section is currently empty.</div>
-            }
-
-        </div>
-
-    </main>
-
-    <aside class="side-b" style="padding-right: 20px">
-        <section class="common-section"></section>
-    </aside>
-</div>
-</body>
 
 <script>
 
     var submitButton = document.getElementById("submit-comment");
     var handleErrorDiv = document.getElementById("handle-error");
 
+    function UpComment(cmtKey) {
+        console.log("User up vote! " + cmtKey);
+        $.ajax({
+            url: '/Post/Vote?method=UPcmt&postKey=' + cmtKey,
+            type: 'POST',
+            contentType: 'application/json',
+            success: setTimeout(function () {
+                location.reload();
+            }, 0),
+        });
+    }
+
+    function DownComment(cmtKey) {
+        console.log("User up vote! " + cmtKey);
+        $.ajax({
+            url: '/Post/Vote?method=Downcmt&postKey=' + cmtKey,
+            type: 'POST',
+            contentType: 'application/json',
+            success: setTimeout(function () {
+                location.reload();
+            }, 0),
+        });
+    }
+    
     submitButton.addEventListener("click", function () {
         // Get the comment data from the textarea
         var commentTextarea = document.querySelector(".comment-input");
         var comment = commentTextarea.value;
 
-        // Make the request to submit the comment data
-        fetch("your-submit-url", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ comment: comment })
-        })
-            .then(function (response) {
-                // Handle the response from the server
-                if (response.ok) {
-                    handleErrorDiv.textContent = "Comment submitted successfully!";
+        var uniqKey = document.querySelector(".postKey");
+        var postKey = uniqKey.value;
 
+        // Make the request to submit the comment data
+        $.ajax({
+            url: "CreateComment",
+            type: "POST",
+            contentType: "application/json",
+
+            data: JSON.stringify({
+                comment: comment,
+                postKey: postKey
+            }),
+
+            success: function (response) {
+
+                if (response.code === 200) {
+                    // Handle success
+                    handleErrorDiv.textContent = "Comment submitted successfully!";
                     handleErrorDiv.classList.remove("error-message");
                     handleErrorDiv.classList.add("success-message");
-                    // Perform any additional actions if needed
-                } else {
-                    handleErrorDiv.textContent = "Error submitting comment. Status: " + response.status;
 
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+
+                } else {
+                    handleErrorDiv.textContent = response.message;
                     handleErrorDiv.classList.remove("success-message");
                     handleErrorDiv.classList.add("error-message");
-                    // Handle the error case
                 }
-            })
-            .catch(function (error) {
-                handleErrorDiv.textContent = "Error submitting comment: " + error.message;
-
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log(xhr);
+                // Handle error
+                handleErrorDiv.textContent = xhr.responseJSON.message;
                 handleErrorDiv.classList.remove("success-message");
                 handleErrorDiv.classList.add("error-message");
-                // Handle any network or other errors
-            });
+            }
+        });
     });
 
 </script>
