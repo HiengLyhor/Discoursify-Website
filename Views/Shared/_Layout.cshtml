@@ -46,7 +46,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-center" id="navbarResponsive">
                         <div style="display: flex; align-items: center">
-                            <input style="width: 600px; height: 40px; border-radius: 5px;" type="text" id="searchInput" name="search" value="" placeholder="Explore posts" />
+                            <input style="width: 600px; height: 40px; border-radius: 5px;" type="text" id="searchInput" name="search" value="" placeholder="Explore posts" onkeydown="handleKeyDown(event)"/>
                             <button id="search-content"><span style="height: 40px; font-size: 33px"> &ensp;<i class="fa fa-search" aria-hidden="true"></i></span></button>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                                 </li>
 
                                 <li>
-                                    <button onclick="window.location.href='/User/Profile';" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 16px; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#0056b3'" onmouseout="this.style.backgroundColor='#007bff'">Profile <i class="fa fa-user" aria-hidden="true"></i></button>
+                                    <button onclick="window.location.href='/Profile/ViewProfile';" style="display: inline-block; padding: 10px 20px; background-color: #5193D3; color: #fff; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 16px; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#0056b3'" onmouseout="this.style.backgroundColor='#5193D3'">Profile <i class="fa fa-user" aria-hidden="true"></i></button>
                                 </li>
 
                                 <li style="display: inline-block; font-size: 16px;">
@@ -100,6 +100,13 @@
         var filter = document.getElementById("searchInput").value;
         window.location.href = "/Home/Index?filter=" + encodeURIComponent(filter);
     });
+
+    function handleKeyDown(event) {
+        if (event.keyCode === 13) {
+            var filter = document.getElementById("searchInput").value;
+            window.location.href = "/Home/Index?filter=" + encodeURIComponent(filter);
+        }
+    }
 </script>
 
 

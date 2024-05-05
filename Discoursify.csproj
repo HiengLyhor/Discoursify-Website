@@ -124,6 +124,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Enum\CommandAction.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -134,6 +135,8 @@
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostComment.cs" />
+    <Compile Include="Models\Profile.cs" />
+    <Compile Include="Models\ProfileAction.cs" />
     <Compile Include="Models\StaticContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -197,6 +200,7 @@
     <Content Include="Image\43668479_Screenshot 2023-12-06 175411.png" />
     <Content Include="Image\48310878_logo-no-background.png" />
     <Content Include="Image\712807543_Screenshot 2023-12-02 144510.png" />
+    <Content Include="Image\profile.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -257,6 +261,8 @@
     <Content Include="Views\Post\Create.cshtml" />
     <Content Include="Views\FeedBack\Feedback.cshtml" />
     <Content Include="Views\Post\PostDetail.cshtml" />
+    <Content Include="Views\Profile\ViewProfile.cshtml" />
+    <Content Include="Views\Profile\ViewOtherProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

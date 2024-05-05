@@ -1,0 +1,201 @@
+﻿@using Discoursify.Models;
+@{
+    ViewBag.Title = "ViewProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Profile profile = Model;
+}
+
+<body>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="~/Content/assets/css/style.css"> @*This is the style for nav bar*@
+
+    <div class="common-structure">
+        <aside class="side-a" style="padding-left: 20px">
+            <section class="common-section">
+                <a href="@Url.Action("Index", "Home")" style="margin-top: 20px; margin-left: 20px; display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-family: 'Arial', sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Back</a>
+            </section>
+        </aside>
+
+        <main class="main-feed">
+
+            <div class="profile-container">
+                <div class="profile-image">
+                    <img src="~/Image/profile.jpg" alt="User Profile Image">
+                </div>
+                <div class="profile-details">
+                    <p>Username: <span style="font-weight: bold">@profile.Username</span></p>
+                    <p>Email: <a style="color: dodgerblue">@profile.Email</a></p>
+                </div>
+
+                @if (profile.Bio == "N/A")
+                {
+                    <div class="user-bio">
+                        <p>This user doesn't have bio yet</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="user-bio">
+                        <p>@profile.Bio</p>
+                    </div>
+                }
+
+
+            </div>
+
+            <div class="navbar">
+                <button class="button" onclick="navigateToProfileView('post')" style="border-bottom-left-radius: 5px; border-top-left-radius: 5px">Your Posts</button>
+                <button class="button" onclick="navigateToProfileView('like')">Posts you liked</button>
+                <button class="button" onclick="navigateToProfileView('comment')" style="border-bottom-right-radius: 5px; border-top-right-radius: 5px">Posts you commented</button>
+            </div>
+
+            @if (profile.ProfileActions.Count != 0)
+            {
+                <div style="text-align: center; color: #616569">Showing data that you @profile.ProfileActions[0].UserAction</div>
+                foreach (var data in profile.ProfileActions)    
+                {   
+                    <div class="list-container" style="margin-top: 5px">
+                        <div class="list-card" onclick="navigateTo('/Post/PostDetail?postKey=@data.PostKey')">
+                            <h4>Posted by: @data.Username</h4>
+                            <p style="font-size: 12px">Posted: @data.ActionDate</p>
+                            <h3>@data.Title</h3>
+                            <p>@data.Content ....</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="text-align: center">Oops! Seems like you didn't perform this action with any post yet.</p>
+            }
+
+
+        </main>
+        <aside class="side-b" style="padding-right: 20px">
+            <section class="common-section"></section>
+        </aside>
+    </div>
+
+</body>
+
+<script>
+
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+
+    function navigateToProfileView(type) {
+        console.log("type " + type);
+        if (type === 'like') {
+            window.location.href = '/Profile/ViewProfile?type=like';
+        }
+        else if (type === 'comment') {
+            window.location.href = '/Profile/ViewProfile?type=comment';
+        }
+        else if (type === 'post') {
+            window.location.href = '/Profile/ViewProfile?type=post';
+        }
+    }
+
+</script>
+
+<style>
+
+    .profile-container {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .profile-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-details {
+        width: 80%;
+        margin-left: 20px;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .user-bio {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .data-section {
+        text-align: center;
+        display: none;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .data-section.active {
+        display: block;
+    }
+
+    .navbar {
+        display: flex;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .navbar .button {
+        text-align: center;
+        flex-basis: 33.33%;
+        padding: 8px 16px;
+        background-color: #9fcaf5;
+        border: none;
+        border-radius: 0;
+        cursor: pointer;
+    }
+
+    .navbar .button:hover {
+        background-color: #5193D3;
+    }
+
+    .list-card {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #eaeaea;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .list-card:hover {
+        border-color: #ccc;
+    }
+
+    .list-card h4 {
+        margin: 0;
+        color: #333;
+    }
+
+    .list-card p {
+        margin: 10px 0;
+        color: #777;
+    }
+
+    .list-card a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .list-card a:hover {
+        text-decoration: underline;
+    }
+</style>

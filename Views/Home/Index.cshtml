@@ -89,8 +89,11 @@
                         <li class="main-feed-item">
                             <article class="common-post">
                                 <div class="common-post-content common-content">
-                                    <h4 style="margin-bottom: 10px">🧔 <b>@post.Owner</b></h4>
-                                    <p><b>@post.Title</b></p>
+                                    <a style="margin-bottom: 10px; color: black;" href="/Profile/ViewOtherProfile?profile=@post.Owner">
+                                        🧔 <b>@post.Owner</b>
+                                        <button style="float: right; text-align: right;">...</button>
+                                    </a>
+                                    <p style="margin-top: 10px"><b>@post.Title</b></p>
 
                                     <p>
                                         @post.Content

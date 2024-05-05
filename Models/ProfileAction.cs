@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace Discoursify.Models
+{
+    public class ProfileAction
+    {
+        public string UserAction { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public string ActionDate { get; set; }  
+        public string PostKey { get; set; }
+        public string Username { get; set; }
+    }
+}
