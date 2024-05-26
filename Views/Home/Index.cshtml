@@ -91,7 +91,6 @@
                                 <div class="common-post-content common-content">
                                     <a style="margin-bottom: 10px; color: black;" href="/Profile/ViewOtherProfile?profile=@post.Owner">
                                         🧔 <b>@post.Owner</b>
-                                        <button style="float: right; text-align: right;">...</button>
                                     </a>
                                     <p style="margin-top: 10px"><b>@post.Title</b></p>
 
@@ -106,6 +105,8 @@
                                 <div class="summary u-flex">
                                     <div class="reactions">👍</div>
                                     <div class="reactions-total">@post.Like</div>
+                                    <div class="reactions">👎</div>
+                                    <div class="reactions-total">@post.DisLike</div>
                                     <div class="total-comments u-margin-inline-start">
                                         <a onclick="navigateToPostDetail('@post.UniqKey')">@post.CommentCount Comments</a>
                                     </div>

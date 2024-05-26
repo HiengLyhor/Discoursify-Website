@@ -68,10 +68,19 @@
                                     <button type="button" id="toggleConfirmPasswordField" class="password-toggle-btn"><i class="fa fa-eye" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="forms_field">
-                                    @Html.DropDownListFor(m => m.Gender, new SelectList(new[] { "Male", "Female", "Other" }), "Gender", new { @class = "forms_field-input" })
+                                    @Html.TextBoxFor(m => m.TelegramId, new { @class = "forms_field-input", @placeholder = "Your telegram ID", @required = "required", @id = "telegramId" })
                                 </div>
-                                <div class="forms_field">
-                                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "forms_field-input", @type = "date", @placeholder = "Date of Birth", @required = "required" })
+
+                                <div class="info-section">
+                                    <p>
+                                        <strong>To ensure we can assist you in recovering your password if it's ever lost, we need your Telegram ID and for you to activate our bot.</strong>
+                                    </p>
+                                    <p>
+                                        1. <strong>Get your Telegram ID</strong>: <a href="https://t.me/userinfobot" target="_blank" class="telegram-link">Click here</a> to find out how to get your Telegram ID.
+                                    </p>
+                                    <p>
+                                        2. <strong>Start our bot</strong>: <a href="https://t.me/DiscoursifyBot" target="_blank" class="telegram-link">Click here</a> to activate our bot.
+                                    </p>
                                 </div>
                             </fieldset>
                             <div class="forms_buttons" style="margin-right: 330px; margin-bottom: 30px">
@@ -152,6 +161,35 @@
 
 </script>
 <style>
+    .info-section {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .info-section p {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .info-section p strong {
+        font-weight: bold;
+    }
+
+    .telegram-link {
+        font-size: 14px;
+        color: #007BFF;
+        text-decoration: none;
+    }
+
+    .telegram-link:hover {
+        text-decoration: underline;
+    }
+
     .password-toggle-btn {
         background: none;
         border: none;

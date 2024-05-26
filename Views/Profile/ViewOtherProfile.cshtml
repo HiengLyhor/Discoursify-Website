@@ -53,12 +53,23 @@
                 <div style="text-align: center; color: #616569">Showing data posted by <span style="font-weight: bold">@profile.ProfileActions[0].Username</span></div>
                 foreach (var data in profile.ProfileActions)
                 {
+                    @*<div class="list-container" style="margin-top: 5px">
+                    <div class="list-card" onclick="navigateTo('/Post/PostDetail?postKey=@data.PostKey')">
+                        <h4>Posted by: @data.Username</h4>
+                        <p style="font-size: 12px">Posted: @data.ActionDate</p>
+                        <h3>@data.Title</h3>
+                        <p>@data.Content ....</p>
+                    </div>
+                </div>*@
                     <div class="list-container" style="margin-top: 5px">
-                        <div class="list-card" onclick="navigateTo('/Post/PostDetail?postKey=@data.PostKey')">
-                            <h4>Posted by: @data.Username</h4>
-                            <p style="font-size: 12px">Posted: @data.ActionDate</p>
-                            <h3>@data.Title</h3>
-                            <p>@data.Content ....</p>
+                        <div class="list-card" onclick="navigateTo('/Post/PostDetail?postKey=@data.PostKey')" style="display: flex; align-items: center; padding: 15px; background: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; margin-bottom: 10px; transition: transform 0.2s;">
+                            <img class="embed-content-image" src="/Image/@data.ImgUrl" alt="Post Image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
+                            <div style="flex-grow: 1;">
+                                <h4 style="margin: 0;">Posted by: @data.Username</h4>
+                                <p style="font-size: 12px; margin: 5px 0;">Posted: @data.ActionDate</p>
+                                <h3 style="margin: 5px 0;">@data.Title</h3>
+                                <p style="margin: 5px 0;">@data.Content ....</p>
+                            </div>
                         </div>
                     </div>
                 }
@@ -151,36 +162,8 @@
         background-color: #5193D3;
     }
 
-    .list-card {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #eaeaea;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
     .list-card:hover {
-        border-color: #ccc;
+        transform: translateY(-3px);
     }
 
-    .list-card h4 {
-        margin: 0;
-        color: #333;
-    }
-
-    .list-card p {
-        margin: 10px 0;
-        color: #777;
-    }
-
-    .list-card a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .list-card a:hover {
-        text-decoration: underline;
-    }
 </style>

@@ -147,13 +147,74 @@ namespace Discoursify.Controllers
             {
                 if (Url.IsLocalUrl(returnUrl))
                 {
-                    return Redirect(returnUrl);
+                    return Redirect(returnUrl); 
                 }
                 else
                 {
                     return RedirectToAction("Index", "Home");
                 }
             }
+        }
+
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        public JsonResult SendOtp(string email)
+        {
+            Login login = new Login();
+            string otpCode = login.getOTPUser(email);
+
+            if(otpCode == "Not Found" || otpCode == null)
+            {
+                return Json(new { success = false });
+            }
+            string result = login.sendOtp(otpCode);
+
+            if(result == "Fail")
+            {
+                return Json(new { success = false });
+            }
+            return Json(new { success = true });
+        }
+
+        public ActionResult VerifyOtp(Login model)
+        {
+            // Perform checking OTP if success return to reset password 
+            // If check failed, return view forget password
+
+            string compareOtp = model.compareOtp(model.OtpCode, model.Email);
+
+            if(compareOtp  == model.OtpCode)
+            {
+                TempData["Success"] = "OTP Verify successfully. Please change your password.";
+                return View("CreateNewPassword", model);
+            }
+            
+            TempData["ErrorPost"] = "OTP is not correct, Please try again later.";
+            return View("ForgotPassword");
+        }
+
+        public ActionResult CreateNewPassword(Login model)
+        {
+            if(model.Password != model.ConfirmPassword)
+            {
+                TempData["Error"] = "Your password and confirm password must be the same.";
+                return View();
+            }
+
+            string changePassword = model.changePassword(model.Password, model.Email);
+
+            if(changePassword == "Success")
+            {
+                TempData["SuccessMessage"] = "Your account has been changed password successfully. \nPlease login with your username and new password.";
+                return RedirectToLocal("");
+            }
+
+            TempData["Error"] = "An error occurred during changing password process.";
+            return View();
+
         }
 
     }

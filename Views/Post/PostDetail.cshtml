@@ -28,26 +28,40 @@
         </div>
 
         @* This is for the post owner and post date*@
-        <div style="margin-top: 20px">
+    <div style="margin-top: 20px">
 
-            @* This is for show post owner and post date*@
-            <h2>
-                <a style="color: black" href="/Profile/ViewOtherProfile?profile=@post.Owner">Created by: <span style="font-weight: bold">@post.Owner</span></a>
-                
-                &emsp;&emsp;
-                <span>🟢</span> @post.PostDate
-            </h2>
-            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
-            @* Post image*@
-            <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="" style="margin-top: 40px; transform: scale(75%);">
+        @* This is for show post owner and post date*@
+        <h2>
+            <a style="color: black" href="/Profile/ViewOtherProfile?profile=@post.Owner">Created by: <span style="font-weight: bold">@post.Owner</span></a>
 
-            @* This is for display post description*@
-            <h2 style="margin-top: 20px; line-height: 1.5; text-align: justify; text-justify: inter-word; font-size: 21px; color: #333; font-family: Arial, sans-serif;">
-                @post.Content
-            </h2>
+            &emsp;&emsp;
+            <span>🟢</span> @post.PostDate
+        </h2>
 
-            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
+        <div class="summary u-flex" style="margin-top: 10px">
+            <div class="reactions">👍</div>
+            <div class="reactions-total">@post.Like</div>
+            <div class="reactions">👎</div>
+            <div class="reactions-total">@post.DisLike</div>
         </div>
+
+        <hr style="margin-top: 20px; border: none; border-top: 2px solid #ccc;">
+        @* Post image*@
+        <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="Post Image" onclick="openModal(this.src)" style="margin-top: 40px; transform: scale(75%);">
+
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImage">
+            <div id="caption">@post.Title</div>
+        </div>
+
+        @* This is for display post description*@
+        <h2 style="margin-top: 20px; line-height: 1.5; text-align: justify; text-justify: inter-word; font-size: 21px; color: #333; font-family: Arial, sans-serif;">
+            @post.Content
+        </h2>
+
+        <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
+    </div>
 
         <div id="comment-section" style="margin-top: 20px"></div>
 
@@ -83,7 +97,7 @@
 
         </div>
 
-    </main>
+</main>
 
     <aside class="side-b" style="padding-right: 20px">
         <section class="common-section"></section>
@@ -168,6 +182,62 @@
     .success-message {
         color: green;
     }
+    @* end *@
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        padding-top: 60px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Modal Content (Image) */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 100%;
+        max-width: 700px;
+    }
+
+    /* Caption of Modal Image */
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+    }
+
+    /* Add Animation - Zoom in the Modal */
+    .modal-content {
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    /* The Close Button */
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
 </style>
 
 <script>
@@ -246,4 +316,33 @@
         });
     });
 
+    function openModal(src) {
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImage");
+        modal.style.display = "block";
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("imageModal");
+        modal.style.display = "none";
+    }
+
+    function toggleModal(src) {
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImage");
+        if (modal.style.display === "block") {
+            modal.style.display = "none";
+        } else {
+            modal.style.display = "block";
+            modalImg.src = src;
+        }
+    }
+
+    window.onscroll = function () {
+        var modal = document.getElementById("imageModal");
+        if (modal.style.display === "block") {
+            modal.style.display = "none";
+        }
+    };
 </script>

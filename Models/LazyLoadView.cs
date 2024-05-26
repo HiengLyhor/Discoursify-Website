@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
 using System.Configuration;
-using System.Web.Mvc;
 
 namespace Discoursify.Models
 {
@@ -40,6 +36,7 @@ namespace Discoursify.Models
                                 Owner = (string)reader["Owner"],
                                 UniqKey = (string)reader["Uniquekey"],
                                 Like = (int)reader["Up_Vote"],
+                                DisLike = (int)reader["Down_Vote"],
                                 Content = (string)reader["Content"],
                                 CommentCount = (int)reader["CMTCOUNT"]
                             };

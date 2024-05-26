@@ -15,6 +15,7 @@ namespace Discoursify.Models
         public string Username { set; get; }
         public string Email { get; set; }
         public string Bio { get; set; }
+        public string TelegramId { get; set; }
         public List<ProfileAction> ProfileActions { get; set; }
 
         private static string CS = ConfigurationManager.ConnectionStrings["Discoursify"].ConnectionString;
@@ -43,6 +44,7 @@ namespace Discoursify.Models
                                 Username = reader["Username"].ToString(),
                                 Email = reader["Email"].ToString(),
                                 Bio = reader["Bio"].ToString(),
+                                TelegramId = reader["TeleId"].ToString(),
 
                             };
 
@@ -61,6 +63,40 @@ namespace Discoursify.Models
                 {
                     con.Close();
                 }
+            }
+        }
+
+        public string updateTelegramId(string target, string id)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(CS))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE User_Detail SET TelegramId = @Id WHERE Username = @Username", con))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", target);
+                        cmd.Parameters.AddWithValue("@Id", id);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            return "SUCCESS";
+                        }
+                        else
+                        {
+                            Console.WriteLine("User not found");
+                            return "Not Found";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "Existed";
             }
         }
 
@@ -91,6 +127,8 @@ namespace Discoursify.Models
                                 PostKey = reader["PostKey"].ToString(),
                                 ActionDate = reader["ActionDate"].ToString(),
                                 Username = reader["Username"].ToString(),
+                                ImgUrl = reader["IMG"].ToString(),
+                                CmtKey = reader["CMT_KEY"].ToString(),
 
                             };
                             result.Add(data);

@@ -11,4 +11,5 @@ namespace Discoursify.Models
         public string Password { get; set; }
         public string UserRole { get; set; } 
     }
+
 }

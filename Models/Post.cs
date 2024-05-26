@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Remoting.Messaging;
 using System.Web;
-using System.Web.Helpers;
 using System.Configuration;
-using System.Web.UI.WebControls;
 
 namespace Discoursify.Models
 {
@@ -21,6 +16,8 @@ namespace Discoursify.Models
         public string Owner { get; set; }
         public string UniqKey { get; set; } 
         public int Like { get; set; }    
+
+        public int DisLike { get; set; }
         public int CommentCount { get; set; }   
         public string PostDate { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
@@ -159,6 +156,7 @@ namespace Discoursify.Models
                                 PostDate = reader["Post_Date"].ToString(),
                                 UniqKey = (string)reader["Uniquekey"],
                                 Like = (int)reader["Up_Vote"],
+                                DisLike = (int)reader["Down_Vote"],
                                 CommentCount = (int)reader["CmtCount"],
 
                             };

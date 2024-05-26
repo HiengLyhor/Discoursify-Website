@@ -8,7 +8,32 @@
 <body>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="~/Content/assets/css/style.css"> @*This is the style for nav bar*@
+
+    <div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletePostModalLabel">Delete Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this post? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="common-structure">
         <aside class="side-a" style="padding-left: 20px">
@@ -26,6 +51,29 @@
                 <div class="profile-details">
                     <p>Username: <span style="font-weight: bold">@profile.Username</span></p>
                     <p>Email: <a style="color: dodgerblue">@profile.Email</a></p>
+
+                    @if (profile.TelegramId == null || profile.TelegramId == "")
+                    {
+                        <div class="info-section warning">
+                            <p><strong>Your account does not have a Telegram ID yet.</strong></p>
+                            <p>To recover your password, add your Telegram ID:</p>
+                            <p>
+                                1. <a href="https://t.me/userinfobot" target="_blank" class="telegram-link">Get your Telegram ID</a><br>
+                                2. <a href="https://t.me/YourBotUsername" target="_blank" class="telegram-link">Start our bot</a>
+                            </p>
+                        </div>
+                        <form action="/Profile/AddTelegramId" method="post" style="margin-top: 10px;">
+                            <input type="text" name="telegramId" placeholder="Enter your Telegram ID" class="telegram-input" required>
+                            <button type="submit" class="btn-submit">Submit</button>
+                        </form>
+
+                    }
+                    else
+                    {
+                        <div class="info-section">
+                            <p><strong>Your Telegram ID:</strong> @profile.TelegramId</p>
+                        </div>
+                    }
                 </div>
 
                 @if (profile.Bio == "N/A")
@@ -50,17 +98,44 @@
                 <button class="button" onclick="navigateToProfileView('comment')" style="border-bottom-right-radius: 5px; border-top-right-radius: 5px">Posts you commented</button>
             </div>
 
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" style="text-align: center">
+                    @TempData["SuccessMessage"].ToString()
+                </div>
+            }
+
             @if (profile.ProfileActions.Count != 0)
             {
                 <div style="text-align: center; color: #616569">Showing data that you @profile.ProfileActions[0].UserAction</div>
-                foreach (var data in profile.ProfileActions)    
-                {   
+
+
+                foreach (var data in profile.ProfileActions)
+                {
                     <div class="list-container" style="margin-top: 5px">
-                        <div class="list-card" onclick="navigateTo('/Post/PostDetail?postKey=@data.PostKey')">
-                            <h4>Posted by: @data.Username</h4>
-                            <p style="font-size: 12px">Posted: @data.ActionDate</p>
-                            <h3>@data.Title</h3>
-                            <p>@data.Content ....</p>
+                        <div class="list-card" onclick="navigateTo('/Post/PostDetail?postKey=@data.PostKey')" style="display: flex; align-items: center; padding: 15px; background: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; margin-bottom: 10px; transition: transform 0.2s;">
+                            <img class="embed-content-image" src="/Image/@data.ImgUrl" alt="Post Image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
+                            <div style="flex-grow: 1;">
+                                <h4 style="margin: 0;">Posted by: @data.Username</h4>
+                                <p style="font-size: 12px; margin: 5px 0;">Posted: @data.ActionDate</p>
+                                <h3 style="margin: 5px 0;">@data.Title</h3>
+                                <p style="margin: 5px 0;">@data.Content ....</p>
+                            </div>
+                            <div class="btn-container" style="display: flex; flex-direction: column; align-items: flex-start; margin-left: 15px;">
+                                @if (data.UserAction == "post")
+                                {
+                                    <button type="button" class="btn btn-edit" onclick="event.stopPropagation(); navigateToEdit('@data.PostKey')">Edit</button>
+                                    <button type="button" class="btn btn-delete" onclick="event.stopPropagation(); showDeleteModal('@data.PostKey')">Delete</button>
+                                }
+                                else if (data.UserAction == "comment")
+                                {
+                                    <button type="button" class="btn btn-delete" onclick="event.stopPropagation(); navigateToDeleteComment('@data.CmtKey')">Delete</button>
+                                }
+                                else if (data.UserAction == "like")
+                                {
+                                    <button type="button" class="btn btn-unlike" onclick="event.stopPropagation(); navigateToUnlike('@data.PostKey')">Unlike</button>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
@@ -69,6 +144,7 @@
             {
                 <p style="text-align: center">Oops! Seems like you didn't perform this action with any post yet.</p>
             }
+
 
 
         </main>
@@ -81,12 +157,25 @@
 
 <script>
 
+    let postKeyToDelete;
+    let commentKeyToDelete;
+
+    function showDeleteModal(postKey) {
+        postKeyToDelete = postKey;
+        $('#deletePostModal').modal('show');
+    }
+    document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+        if (postKeyToDelete) {
+            window.location.href = '/Profile/DeletePost?postKey=' + postKeyToDelete;
+        }
+    });
+
     function navigateTo(url) {
         window.location.href = url;
     }
 
     function navigateToProfileView(type) {
-        console.log("type " + type);
+
         if (type === 'like') {
             window.location.href = '/Profile/ViewProfile?type=like';
         }
@@ -97,10 +186,123 @@
             window.location.href = '/Profile/ViewProfile?type=post';
         }
     }
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+    function navigateToEdit(postKey) {
+        window.location.href = '/Profile/EditPost?postKey=' + postKey;
+    }
+    function navigateToDelete(postKey) {
+        if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+            window.location.href = '/Profile/DeletePost?postKey=' + postKey;
+        }
+    }
+    function navigateToDeleteComment(commentKey) {
+        window.location.href = '/Profile/DeleteComment?commentKey=' + commentKey;
+    }
+    function navigateToUnlike(likeKey) {
+        window.location.href = '/Profile/Unlike?likeKey=' + likeKey;
+    }
 
 </script>
 
 <style>
+    .modal-header {
+        background-color: #f44336;
+        color: white;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .modal-footer {
+        background-color: #f1f1f1;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .modal-body {
+        padding: 20px;
+        font-size: 16px;
+    }
+
+    .modal-text {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-secondary:hover, .btn-danger:hover {
+        opacity: 0.8;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .telegram-input {
+        max-width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: calc(100% - 22px);
+        margin-bottom: 10px;
+    }
+
+    .btn-submit {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #007BFF;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        background-color: #0056b3;
+    }
+    .info-section.warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+    }
+    .info-section {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .info-section p {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .info-section p strong {
+        font-weight: bold;
+    }
+
+    .telegram-link {
+        font-size: 16px;
+        color: #007BFF;
+        text-decoration: none;
+    }
+
+    .telegram-link:hover {
+        text-decoration: underline;
+    }
 
     .profile-container {
         margin-top: 20px;
@@ -166,36 +368,53 @@
         background-color: #5193D3;
     }
 
-    .list-card {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-        padding: 10px;
-        border: 1px solid #eaeaea;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
     .list-card:hover {
-        border-color: #ccc;
+        transform: translateY(-3px);
     }
 
-    .list-card h4 {
-        margin: 0;
-        color: #333;
+    .btn {
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .list-card p {
-        margin: 10px 0;
-        color: #777;
+    .btn-edit {
+        background-color: #007BFF;
+        color: #fff;
     }
 
-    .list-card a {
-        color: #007bff;
-        text-decoration: none;
+    .btn-edit:hover {
+        background-color: #0056b3;
     }
 
-    .list-card a:hover {
-        text-decoration: underline;
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    .btn-hide {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    .btn-hide:hover {
+        background-color: #5a636a;
+    }
+    .btn-unlike {
+        background-color: #ffc107;
+        color: #fff;
+    }
+
+    .btn-unlike:hover {
+        background-color: #e0a800;
     }
 </style>
