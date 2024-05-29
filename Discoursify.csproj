@@ -200,7 +200,9 @@
     <Content Include="Image\43668479_Screenshot 2023-12-06 175411.png" />
     <Content Include="Image\48310878_logo-no-background.png" />
     <Content Include="Image\712807543_Screenshot 2023-12-02 144510.png" />
+    <Content Include="Image\placeholder_600x400.svg" />
     <Content Include="Image\profile.jpg" />
+    <Content Include="Image\ThumbsUp-Post-Graphic.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -265,6 +267,7 @@
     <Content Include="Views\Profile\ViewOtherProfile.cshtml" />
     <Content Include="Views\Login\ForgotPassword.cshtml" />
     <Content Include="Views\Login\CreateNewPassword.cshtml" />
+    <Content Include="Views\Post\EditPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

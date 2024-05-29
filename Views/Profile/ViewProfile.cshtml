@@ -116,9 +116,9 @@
                         <div class="list-card" onclick="navigateTo('/Post/PostDetail?postKey=@data.PostKey')" style="display: flex; align-items: center; padding: 15px; background: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; margin-bottom: 10px; transition: transform 0.2s;">
                             <img class="embed-content-image" src="/Image/@data.ImgUrl" alt="Post Image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
                             <div style="flex-grow: 1;">
-                                <h4 style="margin: 0;">Posted by: @data.Username</h4>
+                                <h4 style="margin: 0; font-size: 14px">Posted by: @data.Username</h4>
                                 <p style="font-size: 12px; margin: 5px 0;">Posted: @data.ActionDate</p>
-                                <h3 style="margin: 5px 0;">@data.Title</h3>
+                                <h3 style="margin: 10px 0; font-size: 14px; font-weight: bold">@data.Title</h3>
                                 <p style="margin: 5px 0;">@data.Content ....</p>
                             </div>
                             <div class="btn-container" style="display: flex; flex-direction: column; align-items: flex-start; margin-left: 15px;">
@@ -129,7 +129,7 @@
                                 }
                                 else if (data.UserAction == "comment")
                                 {
-                                    <button type="button" class="btn btn-delete" onclick="event.stopPropagation(); navigateToDeleteComment('@data.CmtKey')">Delete</button>
+                                    <button type="button" class="btn btn-delete" onclick="event.stopPropagation(); navigateToDeleteComment('@data.CmtKey')">Remove Comment</button>
                                 }
                                 else if (data.UserAction == "like")
                                 {
@@ -190,7 +190,7 @@
         window.location.href = url;
     }
     function navigateToEdit(postKey) {
-        window.location.href = '/Profile/EditPost?postKey=' + postKey;
+        window.location.href = '/Post/EditPost?postKey=' + postKey;
     }
     function navigateToDelete(postKey) {
         if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {

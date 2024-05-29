@@ -28,40 +28,40 @@
         </div>
 
         @* This is for the post owner and post date*@
-    <div style="margin-top: 20px">
+        <div style="margin-top: 20px">
 
-        @* This is for show post owner and post date*@
-        <h2>
-            <a style="color: black" href="/Profile/ViewOtherProfile?profile=@post.Owner">Created by: <span style="font-weight: bold">@post.Owner</span></a>
+            @* This is for show post owner and post date*@
+            <h2>
+                <a style="color: black" href="/Profile/ViewOtherProfile?profile=@post.Owner">Created by: <span style="font-weight: bold">@post.Owner</span></a>
 
-            &emsp;&emsp;
-            <span>🟢</span> @post.PostDate
-        </h2>
+                &emsp;&emsp;
+                <span>🟢</span> @post.PostDate
+            </h2>
 
-        <div class="summary u-flex" style="margin-top: 10px">
-            <div class="reactions">👍</div>
-            <div class="reactions-total">@post.Like</div>
-            <div class="reactions">👎</div>
-            <div class="reactions-total">@post.DisLike</div>
+            <div class="summary u-flex" style="margin-top: 10px">
+                <div class="reactions">👍</div>
+                <div class="reactions-total">@post.Like</div>
+                <div class="reactions">👎</div>
+                <div class="reactions-total">@post.DisLike</div>
+            </div>
+
+            <hr style="margin-top: 20px; border: none; border-top: 2px solid #ccc;">
+            @* Post image*@
+            <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="Post Image" onclick="openModal(this.src)" style="margin-top: 40px; transform: scale(75%);">
+
+            <div id="imageModal" class="modal">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img class="modal-content" id="modalImage">
+                <div id="caption">@post.Title</div>
+            </div>
+
+            @* This is for display post description*@
+            <h2 style="margin-top: 20px; line-height: 1.5; text-align: justify; text-justify: inter-word; font-size: 21px; color: #333; font-family: Arial, sans-serif;">
+                @post.Content
+            </h2>
+
+            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
         </div>
-
-        <hr style="margin-top: 20px; border: none; border-top: 2px solid #ccc;">
-        @* Post image*@
-        <img class="embed-content-image" src="/Image/@post.ImageUrl" alt="Post Image" onclick="openModal(this.src)" style="margin-top: 40px; transform: scale(75%);">
-
-        <div id="imageModal" class="modal">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <img class="modal-content" id="modalImage">
-            <div id="caption">@post.Title</div>
-        </div>
-
-        @* This is for display post description*@
-        <h2 style="margin-top: 20px; line-height: 1.5; text-align: justify; text-justify: inter-word; font-size: 21px; color: #333; font-family: Arial, sans-serif;">
-            @post.Content
-        </h2>
-
-        <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
-    </div>
 
         <div id="comment-section" style="margin-top: 20px"></div>
 
@@ -97,7 +97,7 @@
 
         </div>
 
-</main>
+    </main>
 
     <aside class="side-b" style="padding-right: 20px">
         <section class="common-section"></section>

@@ -1,7 +1,7 @@
 ﻿@model Discoursify.Models.Post
 @{
     ViewBag.Title = "Create";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var postOwner = Session["USER_NAME"] != null ? Session["USER_NAME"].ToString() : "Unknown";
     var currentDate = DateTime.Now.ToString("dd MMMM yyyy hh:mm tt");
 }
@@ -27,7 +27,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-
+    <link rel="stylesheet" href="~/Content/assets/css/style.css">
 </head>
 
 @if (TempData["Message"] != null)
@@ -51,18 +51,18 @@
             var cancelUrl = '@Url.Action("Index", "Home")';
             var loginUrl = '@Url.Action("Login", "Login")';
 
-            var modalHtml = '<div id="alertModal" class="modal" tabindex="-1" role="dialog" style="display: block; background: #fffffc">';
+            var modalHtml = '<div id="alertModal" class="modal" tabindex="-1" role="dialog" style="display: block; background: #fffffc; margin-top: 80px">';
             modalHtml += '<div class="modal-dialog" role="document">';
             modalHtml += '<div class="modal-content">';
-            modalHtml += '<div class="modal-header" style="background: #9fcaf5">';
-            modalHtml += '<h5 class="modal-title">Oops!</h5>';
+            modalHtml += '<div class="modal-header" style="background: #9fcaf5; height: 30px">';
+            modalHtml += '<h5 class="modal-title" style="font-size: 16px">Oops!</h5>';
             modalHtml += '</div>';
-            modalHtml += '<div class="modal-body">';
-            modalHtml += '<strong>' + message + '</strong>';
+            modalHtml += '<div class="modal-body" style="height: 50px; text-align: center";">';
+            modalHtml += '<strong style="font-size: 14px;">' + message + '</strong>';
             modalHtml += '</div>';
-            modalHtml += '<div class="modal-footer">';
-            modalHtml += '<a href="' + cancelUrl + '" class="btn btn-secondary">Cancel</a>';
-            modalHtml += '<a href="' + loginUrl + '" class="btn btn-primary">Login</a>';
+            modalHtml += '<div class="modal-footer" style="display: inline-block; margin-left: 35%">';
+            modalHtml += '<a href="' + cancelUrl + '" class="btn btn-secondary" style="font-size: 14px; margin-right: 10px">Cancel</a>';
+            modalHtml += '<a href="' + loginUrl + '" class="btn btn-primary" style="font-size: 14px;">Login</a>';
             modalHtml += '</div>';
             modalHtml += '</div>';
             modalHtml += '</div>';
@@ -75,49 +75,253 @@
 else
 {
 
-    <link rel="stylesheet" href="~/Content/assets/css/style.css">
+    
 
     <div class="common-structure">
         <aside class="side-a"></aside>
 
         <main class="main-feed">
-            @if (TempData["ErrorPost"] != null)
-            {
-                <div class="alert alert-danger">
-                    @TempData["ErrorPost"].ToString()
-                </div>
-            }
 
-            @using (Html.BeginForm("Create", "Post", FormMethod.Post, new { @class = "fancy-form", enctype = "multipart/form-data" }))
-            {
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @id = "title", @name = "title", @required = "required", @style = "height: 30px", @oninput = "updatePreview()" })
-                </div>
-                <div class="form-group">
-                    <label for="main-poster">Main Poster Image:</label>
-                    @Html.TextBoxFor(model => model.ImageFile, new { @class = "form-control-file", @type = "file", @id = "main-poster", @name = "main-poster", @accept = "image/*", @required = "required", @onchange = "loadFile(event)" })
-                </div>
-                <div class="form-group">
-                    <label for="content">Content:</label>
-                    @Html.TextAreaFor(Model => Model.Content, new { @class = "form-control", @rows = "8", @required = "required", @oninput = "updatePreview()", @id = "content" })
-                </div>
+            @* This is for the post title*@
+            <div>
+                <h1 id="editable-title" contenteditable="true">Write your post title...</h1>
+            </div>
 
-                <div class="btn-container">
-                    <button type="button" class="btn btn-back" onclick="window.location.href='/Home/Index'">Back?</button>
-                    <button type="submit" class="btn btn-primary">Create Post</button>
+            @* This is for the post owner and post date*@
+        <div style="margin-top: 20px">
+
+            @* This is for show post owner and post date*@
+            <h2>
+                <a style="color: black" postOwner>Created by: <span style="font-weight: bold">@postOwner</span></a>
+
+                &emsp;&emsp;
+                <span>🟢</span> @currentDate
+            </h2>
+
+            <div class="summary u-flex" style="margin-top: 10px">
+                <div class="reactions">👍</div>
+                <div class="reactions-total">-</div>
+                <div class="reactions">👎</div>
+                <div class="reactions-total">-</div>
+            </div>
+
+            <hr style="margin-top: 20px; border: none; border-top: 2px solid #ccc;">
+            @* Post image*@
+            <div style="position: relative; display: inline-block; text-align: center;">
+                <img id="editable-image" class="embed-content-image" src="~/Image/ThumbsUp-Post-Graphic.jpg" alt="Post Image" style="margin-top: 40px; transform: scale(75%);">
+                <div style="text-align: center;">
+                    <label for="image-input" class="custom-file-upload" style="display: inline-block;">Choose Your Image... &emsp;<i class="fa fa-upload" aria-hidden="true"></i></label>
+                    <input type="file" id="image-input" style="display: none;">
                 </div>
-            }
+            </div>
 
-        <div class="preview">
-            <h3 style="color: #616569; margin-bottom: 20px; text-align: center">Post Preview</h3>
+            @* This is for display post description*@
+            <h2 id="editable-content" contenteditable="true">
+                Write your content...
+            </h2>
 
-            <div class="preview-owner">Posted by: @postOwner</div>
-            <div class="preview-date">@currentDate</div>
-            <h4 id="preview-title" style="font-size: 18px; margin-bottom: 10px">Title</h4>
-            <img id="preview-image" src="" alt="Image Preview" style="display: none; margin-bottom: 10px">
-            <p id="preview-content" style="margin-top: 20px">Content</p>
+            <div style="position: relative; display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 25px">
+                <button id="back" class="back-button" onclick="window.location.href='/Home/Index'">Cancel</button>
+                <button id="save-button" class="fancy-button">Create Post</button>
+            </div>
+            <div id="error-message" class="error-message"></div>
+
+            <hr style="margin-top: 40px; border: none; border-top: 2px solid #ccc;">
         </div>
+
+            <style>
+                .error-message {
+                    text-align: center;
+                    color: red;
+                    font-family: Arial, sans-serif;
+                    margin-top: 10px;
+                }
+
+                #editable-title {
+                    font-weight: bold;
+                    font-size: 35px;
+                    font-family: 'Times New Roman', Times, serif;
+                    margin-top: 15px;
+                    border: none;
+                    outline: none;
+                    color: #aaa; /* Initial color for placeholder text */
+                }
+
+                #editable-content {
+                    text-align: justify;
+                    text-justify: inter-word;
+                    line-height: 1.5;
+                    font-size: 21px;
+                    margin-top: 20px;
+                    font-family: Arial, sans-serif;
+                    border: none;
+                    outline: none;
+                    color: #aaa; /* Initial color for placeholder text */
+                }
+
+                .custom-file-upload {
+                    display: inline-block;
+                    padding: 6px 12px;
+                    cursor: pointer;
+                    background-color: #39D2B4;
+                    color: white;
+                    border-radius: 5px;
+                    font-family: Arial, sans-serif;
+                    transition: all .4s;
+                    margin-top: 10px;
+                }
+
+                .fancy-button {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                    font-family: Arial, sans-serif;
+                }
+
+                .fancy-button:hover {
+                    background-color: #45a049;
+                }
+
+                .fancy-button:active {
+                    background-color: #3e8e41;
+                }
+
+                .back-button {
+                    background-color: #f44336;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                    font-family: Arial, sans-serif;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                }
+
+                .back-button:hover {
+                    background-color: #d32f2f;
+                }
+
+                .back-button:active {
+                    background-color: #c62828;
+                }
+
+                .back-button i {
+                    margin-right: 5px;
+                }
+            </style>
+            <script>
+
+                document.getElementById('save-button').addEventListener('click', function () {
+                    var newTitle = document.getElementById('editable-title').innerText.trim();
+                    var newContent = document.getElementById('editable-content').innerText.trim();
+                    var imageInput = document.getElementById('image-input');
+                    var errorMessage = document.getElementById('error-message');
+                    var formData = new FormData();
+
+                    // Clear previous error messages
+                    errorMessage.innerText = '';
+
+                    // Validation checks
+                    if (newTitle === '' || newTitle === 'Write your post title...') {
+                        errorMessage.innerText = 'Title is required.';
+                        setTimeout(function () {
+                            document.getElementById('editable-title').scrollIntoView({ behavior: 'smooth' });
+                        }, 2000);
+                        return;
+                    }
+
+                    if (newContent === '' || newContent === 'Write your post content...') {
+                        errorMessage.innerText = 'Content is required.';
+                        setTimeout(function () {
+                            document.getElementById('editable-content').scrollIntoView({ behavior: 'smooth' });
+                        }, 2000);
+                        return;
+                    }
+
+                    if (imageInput.files.length === 0) {
+                        errorMessage.innerText = 'Please choose your image.';
+                        setTimeout(function () {
+                            document.getElementById('image-input').scrollIntoView({ behavior: 'smooth' });
+                        }, 2000);
+                        return;
+                    }
+
+                    formData.append('Title', newTitle);
+                    formData.append('Content', newContent);
+                    if (imageInput.files.length > 0) {
+                        formData.append('ImageFile', imageInput.files[0]);
+                    }
+
+                    fetch('/Post/Create', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Success:', data);
+                            alert(data.message);
+                            window.location.href = '/Home/Index'; // Redirect to home page
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while creating the post.');
+                        });
+                });
+
+                document.getElementById('image-input').addEventListener('change', function (event) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('editable-image').src = e.target.result;
+                    };
+                    reader.readAsDataURL(event.target.files[0]);
+                });
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    var editableTitle = document.getElementById('editable-title');
+
+                    editableTitle.addEventListener('focus', function () {
+                        if (this.innerText === 'Write your post title...') {
+                            this.innerText = '';
+                            this.style.color = '#000'; // Change color to default text color
+                        }
+                    });
+
+                    editableTitle.addEventListener('blur', function () {
+                        if (this.innerText.trim() === '') {
+                            this.innerText = 'Write your post title...';
+                            this.style.color = '#aaa'; // Change color back to placeholder color
+                        }
+                    });
+                });
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    var editableContent = document.getElementById('editable-content');
+
+                    editableContent.addEventListener('focus', function () {
+                        if (this.innerText === 'Write your content...') {
+                            this.innerText = '';
+                            this.style.color = '#000'; // Change color to default text color
+                        }
+                    });
+
+                    editableContent.addEventListener('blur', function () {
+                        if (this.innerText.trim() === '') {
+                            this.innerText = 'Write your content...';
+                            this.style.color = '#aaa'; // Change color back to placeholder color
+                        }
+                    });
+                });
+            </script>
         </main>
 
         <aside class="side-b"></aside>

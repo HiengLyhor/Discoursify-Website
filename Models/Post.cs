@@ -26,6 +26,59 @@ namespace Discoursify.Models
 
         private static string CS = ConfigurationManager.ConnectionStrings["Discoursify"].ConnectionString;
 
+        public string EditPost(Post model)
+        {
+            try
+            {
+
+                if (model == null)
+                {
+                    return "Failed to create post, invalid content.";
+                }
+
+                if (model.ImageFile != null && model.ImageFile.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(model.ImageFile.FileName);
+
+                    Random random = new Random();
+                    string randomNumberString = random.Next().ToString();
+                    fileName = randomNumberString + "_" + fileName;
+
+                    var path = Path.Combine("D:\\0-ITE-Year 4\\PP\\Project\\Discoursify\\Image", fileName);
+                    model.ImageFile.SaveAs(path);
+
+                    // Save the filename to the model property
+                    model.ImageUrl = fileName;
+                }
+                else
+                {
+                    model.ImageUrl = null;
+                }
+
+                using (SqlConnection con = new SqlConnection(CS))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("admPost", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@CMD", "Edit");
+                        cmd.Parameters.AddWithValue("@Owner", model.Owner);
+                        cmd.Parameters.AddWithValue("@PostKey", model.UniqKey);
+                        cmd.Parameters.AddWithValue("@Title", model.Title);
+                        cmd.Parameters.AddWithValue("@Content", model.Content);
+                        cmd.Parameters.AddWithValue("@ImgName", model.ImageUrl);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return "success";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
         public string CreatePost(Post model)
         {
             try
